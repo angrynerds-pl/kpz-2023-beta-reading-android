@@ -11,4 +11,8 @@ import com.example.betareadingapp.feature_text.domain.model.Text
 )
 abstract class TextDatabase: RoomDatabase() {
     abstract val textDao: TextDao
+
+    companion object {
+        const val DATABASE_NAME = "texts_db"
+    }
 }
