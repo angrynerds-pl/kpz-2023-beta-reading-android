@@ -7,7 +7,7 @@ import com.example.betareadingapp.feature_text.domain.util.TextOrder
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class GetTextsUseCase(
+class GetTexts(
     private val repository: TextRepository
 ) {
     operator fun invoke(
