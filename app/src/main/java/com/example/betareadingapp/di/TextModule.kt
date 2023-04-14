@@ -6,6 +6,7 @@ import com.example.betareadingapp.feature_text.data.data_source.TextDatabase
 import com.example.betareadingapp.feature_text.data.repository.TextRepositoryImpl
 import com.example.betareadingapp.feature_text.domain.repository.TextRepository
 import com.example.betareadingapp.feature_text.domain.use_case.DeleteText
+import com.example.betareadingapp.feature_text.domain.use_case.FilterTexts
 import com.example.betareadingapp.feature_text.domain.use_case.GetTexts
 import com.example.betareadingapp.feature_text.domain.use_case.TextUseCases
 import dagger.Module
@@ -40,7 +41,8 @@ object TextModule {
     fun provideTextUseCases(repository: TextRepository): TextUseCases{
         return TextUseCases(
             getTexts = GetTexts(repository),
-            deleteText = DeleteText(repository)
+            deleteText = DeleteText(repository),
+            filterTexts = FilterTexts()
         )
     }
 }
