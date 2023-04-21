@@ -4,7 +4,6 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.betareadingapp.feature_text.domain.use_case.GetTexts
 import com.example.betareadingapp.feature_text.domain.use_case.TextUseCases
 import com.example.betareadingapp.feature_text.domain.util.OrderType
 import com.example.betareadingapp.feature_text.domain.util.TextOrder
@@ -12,16 +11,17 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class TextsViewModel @Inject constructor(
+
     private val textUseCases: TextUseCases
 ) : ViewModel() {
 
     private val _state = mutableStateOf(TextsState())
     val state : State<TextsState> = _state
-
 
     private var getNotesJob: Job? = null
 
@@ -31,10 +31,16 @@ class TextsViewModel @Inject constructor(
 
     fun onEvent(event: TextsEvent) {
         when(event){
-            is TextsEvent.Order -> {
-
+             is TextsEvent.Order -> {
                 TODO()
             }
+            is TextsEvent.DeleteText -> {
+                viewModelScope.launch {
+                    textUseCases.deleteText(event.text)
+                    //restoring recently deleted can be added
+                }
+            }
+
             is TextsEvent.FilterTexts -> {
 
                 if(event.filter_string.isEmpty()){
