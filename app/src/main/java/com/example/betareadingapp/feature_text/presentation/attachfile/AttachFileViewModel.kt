@@ -51,7 +51,7 @@ constructor(
         _content.value = content
     }
 
-    private val _uri : MutableState<Uri?> = mutableStateOf(null)
+    private val _uri: MutableState<Uri?> = mutableStateOf(null)
     fun setUri(newUri: Uri) {
         _uri.value = newUri
     }
@@ -86,50 +86,56 @@ constructor(
 
 
     fun uploadPdfWithText() {
+        if (_titleField.value.isEmpty() || _content.value.isEmpty()) {
+            _pdfState.value = PdfState(error = "titleField or content is empty")
+            return
+        }
+        if (_uri.value == null) {
+            _pdfState.value = PdfState(error = "You didn't attach file")
+            return
+        }
+        viewModelScope.launch {
+            authRepository.getUserData().collect { result ->
+                when (result) {
+                    is Resource.Loading -> {
+                        _pdfState.value = PdfState(isLoading = true)
+                    }
 
-        if (_uri.value != null) {
-            viewModelScope.launch {
-                authRepository.getUserData().collect { result ->
-                    when (result) {
-                        is Resource.Loading -> {
-                            _pdfState.value = PdfState(isLoading = true)
-                        }
+                    is Resource.Error -> {
+                        _pdfState.value = PdfState(error = result.message ?: "")
+                    }
 
-                        is Resource.Error -> {
-                            _pdfState.value = PdfState(error = result.message ?: "")
-                        }
-
-                        is Resource.Success -> {
-                            val author = "${result.data?.name} ${result.data?.surname} "
-                            authRepository.uploadPdfToFirebaseStorage(
-                                _uri.value!!,
-                                _fileName.value,
-                                author,
-                                _titleField.value,
-                                _content.value
-                            ).onEach { uploadResult ->
-                                when (uploadResult) {
-                                    is Resource.Loading -> {
-                                        _pdfState.value = PdfState(isLoading = true)
-                                    }
-
-                                    is Resource.Success -> {
-                                        _pdfState.value = PdfState(error = uploadResult.data ?: "") // taki pseudo Error
-                                        _uri.value = null
-                                        _titleField.value = ""
-                                        _content.value = ""
-                                    }
-
-                                    is Resource.Error -> {
-                                        _pdfState.value = PdfState(error = uploadResult.message ?: "")
-                                    }
+                    is Resource.Success -> {
+                        val author = "${result.data?.name} ${result.data?.surname} "
+                        authRepository.uploadPdfToFirebaseStorage(
+                            _uri.value!!,
+                            _fileName.value,
+                            author,
+                            _titleField.value,
+                            _content.value
+                        ).onEach { uploadResult ->
+                            when (uploadResult) {
+                                is Resource.Loading -> {
+                                    _pdfState.value = PdfState(isLoading = true)
                                 }
-                            }.launchIn(viewModelScope)
-                        }
+
+                                is Resource.Success -> {
+                                    _pdfState.value = PdfState(error = uploadResult.data ?: "") // taki pseudo Error
+                                    _uri.value = null
+                                    _titleField.value = ""
+                                    _content.value = ""
+                                }
+
+                                is Resource.Error -> {
+                                    _pdfState.value = PdfState(error = uploadResult.message ?: "")
+                                }
+                            }
+                        }.launchIn(viewModelScope)
                     }
                 }
             }
-        } else
-            _pdfState.value = PdfState(error = "You didn't attach file")
+        }
+
+
     }
 }

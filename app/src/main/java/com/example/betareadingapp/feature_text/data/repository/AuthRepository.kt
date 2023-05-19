@@ -190,7 +190,7 @@ constructor() {
                             }
 
                         }
-                        emit(Resource.Success("Success add text"))
+                        emit(Resource.Success("Succeed add text"))
 
                     } catch (e: Exception) {
                         emit(Resource.Error(message = "${e.message}"))
