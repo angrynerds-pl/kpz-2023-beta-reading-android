@@ -1,13 +1,19 @@
 package com.example.betareadingapp.feature_text.data.repository
 
+import android.net.Uri
 import com.example.betareadingapp.feature_text.domain.model.Text
 import com.example.betareadingapp.feature_text.domain.model.User
 import com.example.betareadingapp.feature_text.domain.util.Resource
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.HttpException
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 import java.io.IOException
@@ -16,7 +22,6 @@ import javax.inject.Inject
 class AuthRepository
 @Inject
 constructor() {
-
     private var firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
     private val fireStoreDatabase = FirebaseFirestore.getInstance()
 
@@ -71,6 +76,7 @@ constructor() {
 
     }
 
+
     fun getLoggedUser(): Flow<Resource<FirebaseUser>> = flow {
 
         emit(Resource.Loading())
@@ -85,25 +91,34 @@ constructor() {
 
     fun getUserData(): Flow<Resource<User>> = flow {
         emit(Resource.Loading())
-        if (firebaseAuth.currentUser != null) {
+
+        val userId = firebaseAuth.currentUser?.uid
+
+        if (userId != null) {
             try {
-                val snapshot = fireStoreDatabase.collection("User")
-                    .document(firebaseAuth.currentUser!!.uid).get().await()
+                val snapshot = fireStoreDatabase.collection("Users")
+                    .document(userId).get().await()
+
                 if (snapshot.exists()) {
                     val user: User? = snapshot.toObject(User::class.java)
-                    emit(Resource.Success(data = user!!))
+                    if (user != null) {
+                        emit(Resource.Success(user))
+                    } else {
+                        emit(Resource.Error(message = "User data is null"))
+                    }
+                } else {
+                    emit(Resource.Error(message = "User document does not exist"))
                 }
+
             } catch (e: HttpException) {
                 emit(Resource.Error(message = e.localizedMessage ?: "Unknown Error"))
             } catch (e: IOException) {
-                emit(
-                    Resource.Error(
-                        message = e.localizedMessage ?: "Check Your Internet Connection"
-                    )
-                )
+                emit(Resource.Error(message = e.localizedMessage ?: "Check Your Internet Connection"))
             } catch (e: Exception) {
                 emit(Resource.Error(message = e.localizedMessage ?: ""))
             }
+        } else {
+            emit(Resource.Error(message = "User not logged in"))
         }
     }
 
@@ -136,6 +151,64 @@ constructor() {
             emit(Resource.Error(message = "User not logged in"))
         }
 
+    }
+
+    fun uploadPdfToFirebaseStorage(uri: Uri, fileName : String, author: String, title: String, content: String): Flow<Resource<String>> =
+        flow {
+            emit(Resource.Loading())
+
+            val userId = firebaseAuth.currentUser?.uid
+
+            if (userId != null) {
+                    val uniqueId = fireStoreDatabase.collection("Text").document().id
+                    val pdfReference = Firebase.storage.reference.child("pdfs/${uniqueId}_${fileName}")
+
+                    try {
+
+                        val pdfSnapshot = pdfReference.putFile(uri).await()
+
+                        // jesli uda sie przeslac
+                        val downloadUrl = pdfSnapshot.storage.downloadUrl.await()
+
+                        val newText = hashMapOf(
+                            "userId" to userId,
+                            "author" to author,
+                            "title" to title,
+                            "content" to content,
+                            "file" to downloadUrl.toString(),
+                            "timestamp" to Timestamp.now()
+                        )
+
+                        if (!saveTextToFirestore(newText, uniqueId)) {
+                            try {
+                                pdfReference.delete()
+                                emit(Resource.Error(message = "Error in create text"))
+                                return@flow
+                            } catch (e: Exception) {
+                                emit(Resource.Error(message = "Error in create text and delete pdf from storage"))
+                                return@flow
+                            }
+
+                        }
+                        emit(Resource.Success("Success add text"))
+
+                    } catch (e: Exception) {
+                        emit(Resource.Error(message = "${e.message}"))
+                    }
+
+            } else {
+                emit(Resource.Error(message = "User not logged in"))
+            }
+        }
+
+    suspend fun saveTextToFirestore(newText: Map<String, Any>, uniqueId: String): Boolean {
+        try {
+            fireStoreDatabase.collection("Text")
+                .document(uniqueId).set(newText).await()
+            return true
+        } catch (e: Exception) {
+            return false
+        }
     }
 
 

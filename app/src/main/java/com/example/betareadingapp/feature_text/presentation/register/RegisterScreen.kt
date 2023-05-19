@@ -217,7 +217,7 @@ fun RegisterScreen(
                 },
             )
 
-            if (!userState.value.error.isEmpty())
+            if (userState.value.error.isNotEmpty())
                 Text(
                     text = userState.value.error,
                     textAlign = TextAlign.Center,

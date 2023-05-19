@@ -4,9 +4,6 @@ import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.betareadingapp.feature_text.data.repository.AuthRepository
-import com.example.betareadingapp.feature_text.data.repository.UserRepositoryImpl
-import com.example.betareadingapp.feature_text.domain.model.User
-import com.example.betareadingapp.feature_text.domain.repository.UserRepository
 import com.example.betareadingapp.feature_text.domain.util.Resource
 import com.example.betareadingapp.feature_text.domain.util.networkState.AuthState
 import com.example.betareadingapp.feature_text.domain.util.networkState.UserState

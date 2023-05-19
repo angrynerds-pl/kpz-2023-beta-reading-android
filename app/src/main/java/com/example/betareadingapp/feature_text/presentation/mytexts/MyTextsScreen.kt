@@ -25,8 +25,10 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.betareadingapp.R
+import com.example.betareadingapp.feature_text.presentation.BottomBar
 import com.example.betareadingapp.feature_text.presentation.auth.AuthViewModel
 import com.example.betareadingapp.feature_text.presentation.mytexts.components.TextItem
+import com.example.betareadingapp.feature_text.presentation.utill.Screen
 
 @Composable
 fun MyTextsScreen(
@@ -59,7 +61,7 @@ fun MyTextsScreen(
                             color = Color.White,
                             modifier = Modifier.padding(top = 10.dp)
                         )
-                        IconButton(onClick = {}) {
+                        IconButton(onClick = { navController.navigate(Screen.AttachFileScreen.route)}) {
                             Icon(
                                 Icons.Default.Add,
                                 contentDescription = "Add",
@@ -77,29 +79,7 @@ fun MyTextsScreen(
             }
         },
         bottomBar = {
-            BottomAppBar(
-                backgroundColor = Color.White
-            ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceEvenly,
-
-
-                    ) {
-                    IconButton(onClick = { }) {
-                        Icon(Icons.Filled.Home, contentDescription = "")
-                    }
-                    IconButton(onClick = { }) {
-                        Icon(Icons.Filled.Chat, contentDescription = "")
-                    }
-                    IconButton(onClick = { }) {
-                        Icon(Icons.Default.Book, contentDescription = "")
-                    }
-                    IconButton(onClick = { }) {
-                        Icon(Icons.Filled.Person, contentDescription = "")
-                    }
-                }
-            }
+            BottomBar(navController)
         }
     ) { paddingValues ->
         Column(

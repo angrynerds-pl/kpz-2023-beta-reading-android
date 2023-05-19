@@ -10,10 +10,12 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.betareadingapp.feature_text.presentation.attachfile.AttachFileScreen
 import com.example.betareadingapp.feature_text.presentation.auth.LoginScreen
 import com.example.betareadingapp.feature_text.presentation.mytexts.MyTextsScreen
 import com.example.betareadingapp.feature_text.presentation.register.RegisterScreen
@@ -41,12 +43,14 @@ class MainActivity : ComponentActivity() {
                         composable(Screen.MyTextsScreen.route){
                             MyTextsScreen(navController)
                         }
+                        composable(Screen.AttachFileScreen.route){
+                            AttachFileScreen(navController)
+                        }
                 }
+//                    AttachFileScreen(navController)
 
-//                MyTextsScreen(navController)
-
+                }
             }
         }
-    }
     }
 }
