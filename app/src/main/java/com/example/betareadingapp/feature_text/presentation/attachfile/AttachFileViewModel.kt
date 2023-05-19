@@ -3,6 +3,7 @@ package com.example.betareadingapp.feature_text.presentation.attachfile
 import android.content.Context
 import android.net.Uri
 import android.provider.OpenableColumns
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
@@ -50,8 +51,7 @@ constructor(
         _content.value = content
     }
 
-    private val _uri = MutableLiveData<Uri>()
-    val uri: LiveData<Uri> = _uri
+    private val _uri : MutableState<Uri?> = mutableStateOf(null)
     fun setUri(newUri: Uri) {
         _uri.value = newUri
     }
