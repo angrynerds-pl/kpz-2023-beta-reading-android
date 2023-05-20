@@ -28,11 +28,6 @@ object TextModule {
     }
 
 
-    @Provides
-       fun provideAuthRepository() = AuthRepository()
-
-
-
 
     @Provides
     @Singleton

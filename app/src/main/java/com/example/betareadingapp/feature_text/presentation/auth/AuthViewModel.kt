@@ -8,13 +8,12 @@ import com.example.betareadingapp.feature_text.data.repository.UserRepositoryImp
 import com.example.betareadingapp.feature_text.domain.model.User
 import com.example.betareadingapp.feature_text.domain.repository.UserRepository
 import com.example.betareadingapp.feature_text.domain.util.Resource
+import com.example.betareadingapp.feature_text.domain.util.error.ExceptionHandler
 import com.example.betareadingapp.feature_text.domain.util.networkState.AuthState
 import com.example.betareadingapp.feature_text.domain.util.networkState.UserState
+import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -48,21 +47,15 @@ constructor(
 
 
     fun login(email: String, password: String) {
-        authRepository.login(email, password).onEach {
-            when (it) {
-                is Resource.Loading -> {
-                    _user.value = AuthState(isLoading = true)
-                }
-
-                is Resource.Error -> {
-                    _user.value = AuthState(error = it.message ?: "")
-                }
-
-                is Resource.Success -> {
-                    _user.value = AuthState(data = it.data)
-                }
+        authRepository.login(email, password)
+            .onEach {
+            _user.value = when (it) {
+                is Resource.Loading -> AuthState(isLoading = true)
+                is Resource.Error -> AuthState(error = it.message ?: "")
+                is Resource.Success -> AuthState(data = it.data)
             }
-        }.launchIn(viewModelScope)
+        }
+            .launchIn(viewModelScope)
     }
 
 
