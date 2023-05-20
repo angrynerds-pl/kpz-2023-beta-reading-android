@@ -5,24 +5,12 @@ import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.HttpExce
 import kotlinx.coroutines.flow.FlowCollector
 import java.io.IOException
 
-fun createDefaultHandler(): ExceptionHandler {
-    val httpHandler = HttpExceptionHandler()
-    val ioHandler = IOExceptionHandler()
-    val generalHandler = GeneralExceptionHandler()
-
-    httpHandler.withNext(ioHandler)
-    ioHandler.withNext(generalHandler)
-
-    return httpHandler
+fun createDefaultHandler(): ExceptionHandler = createChainOfHandlers(::HttpExceptionHandler) {
+    then(::IOExceptionHandler)
+    then(::GeneralExceptionHandler)
 }
 
-abstract class ExceptionHandler {
-
-    protected var next: ExceptionHandler? = null
-
-    fun withNext(next: ExceptionHandler) {
-        this.next = next
-    }
+abstract class ExceptionHandler(protected var next: ExceptionHandler?) {
 
     open suspend fun <T> handle(
         flowCollector: FlowCollector<Resource<T>>,
@@ -30,7 +18,7 @@ abstract class ExceptionHandler {
     ): Unit = next?.handle(flowCollector, exception) ?: throw exception
 }
 
-class HttpExceptionHandler : ExceptionHandler() {
+class HttpExceptionHandler(next: ExceptionHandler?) : ExceptionHandler(next) {
     override suspend fun <T> handle(
         flowCollector: FlowCollector<Resource<T>>,
         exception: Throwable
@@ -44,7 +32,7 @@ class HttpExceptionHandler : ExceptionHandler() {
     }
 }
 
-class IOExceptionHandler : ExceptionHandler() {
+class IOExceptionHandler(next: ExceptionHandler?) : ExceptionHandler(next) {
     override suspend fun <T> handle(
         flowCollector: FlowCollector<Resource<T>>,
         exception: Throwable
@@ -60,7 +48,7 @@ class IOExceptionHandler : ExceptionHandler() {
     }
 }
 
-class GeneralExceptionHandler : ExceptionHandler() {
+class GeneralExceptionHandler(next: ExceptionHandler?) : ExceptionHandler(next) {
     override suspend fun <T> handle(
         flowCollector: FlowCollector<Resource<T>>,
         exception: Throwable
