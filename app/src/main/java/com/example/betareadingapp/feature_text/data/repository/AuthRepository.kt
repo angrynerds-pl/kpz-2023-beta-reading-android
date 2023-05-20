@@ -36,7 +36,7 @@ constructor(
         emit((result.user?.let {
             Resource.Success(data = it)
         }!!))
-    }.catch(exceptionHandler::handleException)
+    }.catch(exceptionHandler::handle)
 
     fun login(email: String, password: String): Flow<Resource<FirebaseUser>> = flow {
 
@@ -46,7 +46,7 @@ constructor(
             emit((result.user?.let {
                 Resource.Success(data = it)
             }!!))
-    }.catch(exceptionHandler::handleException)
+    }.catch(exceptionHandler::handle)
 
     fun logOut() {
         firebaseAuth.signOut()
@@ -75,7 +75,7 @@ constructor(
                 emit(Resource.Success(data = user!!))
             }
         }
-    }.catch(exceptionHandler::handleException)
+    }.catch(exceptionHandler::handle)
 
     fun getTexts(): Flow<Resource<List<Text>>> = flow {
         emit(Resource.Loading())
@@ -94,6 +94,6 @@ constructor(
             emit(Resource.Error(message = "User not logged in"))
         }
 
-    }.catch(exceptionHandler::handleException)
+    }.catch(exceptionHandler::handle)
 
 }

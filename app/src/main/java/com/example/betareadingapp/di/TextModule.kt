@@ -11,6 +11,7 @@ import com.example.betareadingapp.feature_text.domain.use_case.DeleteText
 import com.example.betareadingapp.feature_text.domain.use_case.FilterTexts
 import com.example.betareadingapp.feature_text.domain.use_case.GetTexts
 import com.example.betareadingapp.feature_text.domain.use_case.TextUseCases
+import com.example.betareadingapp.feature_text.domain.util.error.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,7 +28,9 @@ object TextModule {
         return appContext
     }
 
-
+    @Provides
+    @Singleton
+    fun provideExceptionHandler(): ExceptionHandler = createDefaultHandler()
 
     @Provides
     @Singleton
