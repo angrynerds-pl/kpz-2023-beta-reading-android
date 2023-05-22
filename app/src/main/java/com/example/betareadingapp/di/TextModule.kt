@@ -5,13 +5,14 @@ import android.content.Context
 
 import com.example.betareadingapp.feature_text.data.repository.AuthRepository
 import com.example.betareadingapp.feature_text.data.repository.UserRepositoryImpl
-import com.example.betareadingapp.feature_text.domain.repository.TextRepository
-import com.example.betareadingapp.feature_text.domain.repository.UserRepository
-import com.example.betareadingapp.feature_text.domain.use_case.DeleteText
-import com.example.betareadingapp.feature_text.domain.use_case.FilterTexts
-import com.example.betareadingapp.feature_text.domain.use_case.GetTexts
-import com.example.betareadingapp.feature_text.domain.use_case.TextUseCases
-import com.example.betareadingapp.feature_text.domain.util.error.*
+import com.example.betareadingapp.domain.repository.TextRepository
+import com.example.betareadingapp.domain.repository.UserRepository
+import com.example.betareadingapp.domain.use_case.DeleteText
+import com.example.betareadingapp.domain.use_case.FilterTexts
+import com.example.betareadingapp.domain.use_case.GetTexts
+import com.example.betareadingapp.domain.use_case.TextUseCases
+import com.example.betareadingapp.domain.util.error.ExceptionHandler
+import com.example.betareadingapp.domain.util.error.createDefaultHandler
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -34,7 +35,7 @@ object TextModule {
 
     @Provides
     @Singleton
-    fun provideTextUseCases(repository: TextRepository): TextUseCases{
+    fun provideTextUseCases(repository: TextRepository): TextUseCases {
         return TextUseCases(
             getTexts = GetTexts(repository),
             deleteText = DeleteText(repository),
@@ -44,7 +45,7 @@ object TextModule {
 
     @Provides
     @Singleton
-    fun provideUserRepository() : UserRepository{
+    fun provideUserRepository() : UserRepository {
         return UserRepositoryImpl()
     }
 

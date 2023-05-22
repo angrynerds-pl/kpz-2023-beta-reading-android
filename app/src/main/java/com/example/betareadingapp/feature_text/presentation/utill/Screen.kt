@@ -1,7 +1,0 @@
-package com.example.betareadingapp.feature_text.presentation.utill
-
-sealed class Screen(val route: String) {
-    object LoginScreen : Screen("login_screen")
-    object RegisterScreen : Screen("register_screen")
-    object MyTextsScreen : Screen("my_text_screen")
-}

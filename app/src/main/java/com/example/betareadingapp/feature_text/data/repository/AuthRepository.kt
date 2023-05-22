@@ -1,9 +1,9 @@
 package com.example.betareadingapp.feature_text.data.repository
 
-import com.example.betareadingapp.feature_text.domain.model.Text
-import com.example.betareadingapp.feature_text.domain.model.User
-import com.example.betareadingapp.feature_text.domain.util.Resource
-import com.example.betareadingapp.feature_text.domain.util.error.ExceptionHandler
+import com.example.betareadingapp.domain.model.Text
+import com.example.betareadingapp.domain.model.User
+import com.example.betareadingapp.domain.util.Resource
+import com.example.betareadingapp.domain.util.error.ExceptionHandler
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.HttpException
