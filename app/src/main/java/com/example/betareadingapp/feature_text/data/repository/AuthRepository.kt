@@ -12,8 +12,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 import java.io.IOException
@@ -152,6 +150,26 @@ constructor() {
         }
 
     }
+
+    fun getAllTexts(): Flow<Resource<List<Text>>> = flow {
+        emit(Resource.Loading())
+
+        try {
+            val snapshot = fireStoreDatabase.collection("Text")
+                .get().await()
+
+            val texts = snapshot.documents.mapNotNull { it.toObject(Text::class.java) }
+            emit(Resource.Success(texts))
+
+        } catch (e: HttpException) {
+            emit(Resource.Error(message = e.localizedMessage ?: "Unknown Error"))
+        } catch (e: IOException) {
+            emit(Resource.Error(message = e.localizedMessage ?: "Check Your Internet Connection"))
+        } catch (e: Exception) {
+            emit(Resource.Error(message = e.localizedMessage ?: ""))
+        }
+    }
+
 
     fun uploadPdfToFirebaseStorage(uri: Uri, fileName : String, author: String, title: String, content: String): Flow<Resource<String>> =
         flow {

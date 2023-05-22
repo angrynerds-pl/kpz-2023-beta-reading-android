@@ -125,7 +125,7 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
     
-    SelectNoteShowPdf
+    //  SelectNoteShowPdf
     implementation "androidx.compose.material:material-icons-extended:$compose_ui_version"
 
     def navigate_version = "1.8.38-beta"
@@ -139,4 +139,4 @@ dependencies {
     implementation 'com.google.firebase:firebase-storage-ktx:20.1.0'
 
 }
- main
+ //main

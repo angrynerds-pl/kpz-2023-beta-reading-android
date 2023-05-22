@@ -4,20 +4,16 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.betareadingapp.feature_text.presentation.attachfile.AttachFileScreen
 import com.example.betareadingapp.feature_text.presentation.auth.LoginScreen
 import com.example.betareadingapp.feature_text.presentation.mytexts.MyTextsScreen
+import com.example.betareadingapp.feature_text.presentation.recentTexts.RecentTextsScreen
 import com.example.betareadingapp.feature_text.presentation.register.RegisterScreen
 import com.example.betareadingapp.feature_text.presentation.utill.Screen
 import com.example.betareadingapp.ui.theme.BetaReadingAppTheme
@@ -45,6 +41,9 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(Screen.AttachFileScreen.route){
                             AttachFileScreen(navController)
+                        }
+                        composable(Screen.RecentTextsScreen.route){
+                            RecentTextsScreen(navController)
                         }
                 }
 //                    AttachFileScreen(navController)

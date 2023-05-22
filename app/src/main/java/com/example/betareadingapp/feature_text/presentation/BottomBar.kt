@@ -27,7 +27,7 @@ fun BottomBar(navController: NavController) {
 
 
             ) {
-            IconButton(onClick = { }) {
+            IconButton(onClick = {navController.navigate(Screen.RecentTextsScreen.route) }) {
                 Icon(Icons.Filled.Home, contentDescription = "")
             }
             IconButton(onClick = { }) {
