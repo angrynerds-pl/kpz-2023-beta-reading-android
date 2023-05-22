@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "942571972209",
+    "firebase_url": "https://betareading-app-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "betareading-app",
+    "storage_bucket": "betareading-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:942571972209:android:a052ebef6d3340c1195dd0",
+        "android_client_info": {
+          "package_name": "com.example.betareadingapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "942571972209-622j94ne7dafgjl6n8acm47ionoieb7u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEzHnyIoFUfMNkB2thE7Vs5k4ajAdL2qg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "942571972209-622j94ne7dafgjl6n8acm47ionoieb7u.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "942571972209-amk2jbmmgq14mam4i338f795ghlj153u.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "me.gosciniak.julia.BetaReading"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
