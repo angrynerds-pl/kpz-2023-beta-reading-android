@@ -20,8 +20,7 @@ class RegisterUser
 
     operator fun invoke(registerData: RegisterData): Flow<Resource<FirebaseUser>> = flow {
         emit(Resource.Loading())
-        val validationResult = validation(registerData)
-        when (validationResult) {
+        when (val validationResult = validation(registerData)) {
             is RegisterValidationResult.Success -> {
                 val user = authRepository.register(
                     registerData.email,
@@ -39,8 +38,5 @@ class RegisterUser
                 emit(Resource.Error(message = validationResult.message))
             }
         }
-
     }.catch(exceptionHandler::handle)
-
-
 }

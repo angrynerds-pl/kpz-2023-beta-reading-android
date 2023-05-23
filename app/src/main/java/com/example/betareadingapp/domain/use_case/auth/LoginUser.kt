@@ -16,10 +16,10 @@ class LoginUser
     private val exceptionHandler: ExceptionHandler,
     private val authRepository: AuthRepository
 ) {
-    operator fun invoke(authdata: LoginData): Flow<Resource<FirebaseUser>> = flow {
+    operator fun invoke(loginData: LoginData): Flow<Resource<FirebaseUser>> = flow {
         emit(Resource.Loading())
 
-       val user = authRepository.login(authdata.login, authdata.password)
+       val user = authRepository.login(loginData.login, loginData.password)
         emit(Resource.Success(user))
         
     }.catch(exceptionHandler::handle)
