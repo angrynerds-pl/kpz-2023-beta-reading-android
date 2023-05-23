@@ -6,4 +6,5 @@ sealed class Screen(val route: String) {
     object MyTextsScreen : Screen("my_text_screen")
     object AttachFileScreen : Screen("attach_file_screen")
     object RecentTextsScreen : Screen("recent_texts_screen")
+    object CommentsScreen : Screen("comments_screen")
 }

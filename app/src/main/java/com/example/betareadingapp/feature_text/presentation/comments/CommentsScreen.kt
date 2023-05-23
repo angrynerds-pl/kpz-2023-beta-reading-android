@@ -4,12 +4,10 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Send
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -22,17 +20,17 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.betareadingapp.R
+import com.example.betareadingapp.feature_text.domain.model.Comment
 import com.example.betareadingapp.feature_text.presentation.BottomBar
-import com.example.betareadingapp.feature_text.presentation.mytexts.components.TextItem
-import com.example.betareadingapp.feature_text.presentation.utill.Screen
 
 @Composable
-fun MyTextsScreen(
+fun CommentsScreen(
     navController: NavController,
-    viewModel: MyTextsViewModel = hiltViewModel()
+    viewModel: CommentsViewModel = hiltViewModel()
 ) {
 
-    val myTexts = viewModel.myTexts.collectAsState()
+    val comments = viewModel.comments.collectAsState()
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -45,27 +43,11 @@ fun MyTextsScreen(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
-                        "My Texts",
+                        "Comments",
                         color = Color.White,
                         fontSize = 22.sp,
                         modifier = Modifier.padding(top = 10.dp)
                     )
-                    Row {
-                        Text(
-                            "Add text",
-                            fontSize = 22.sp,
-                            color = Color.White,
-                            modifier = Modifier.padding(top = 10.dp)
-                        )
-                        IconButton(onClick = { navController.navigate(Screen.AttachFileScreen.route)}) {
-                            Icon(
-                                Icons.Default.Add,
-                                contentDescription = "Add",
-                                tint = Color.White,
-                                modifier = Modifier.size(40.dp)
-                            )
-                        }
-                    }
                     Image(
                         painter = painterResource(id = R.drawable.smalllogo),
                         contentDescription = "Small Logo",
@@ -80,36 +62,41 @@ fun MyTextsScreen(
     ) { paddingValues ->
         Column(
             modifier = Modifier
+                .fillMaxSize()
                 .background(Color(0xFF43928A))
                 .padding(bottom = paddingValues.calculateBottomPadding()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.height(25.dp))
-            OutlinedTextField(
-                value = viewModel.search.value,
-                onValueChange = { viewModel.setSearch(it) },
-                singleLine = true,
-                modifier = Modifier
-                    .fillMaxWidth(0.7f)
-                    .clip(RoundedCornerShape(50.dp)),
-                placeholder = { Text("Search") },
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    focusedBorderColor = Color.White,
-                    unfocusedBorderColor = Color.White,
-                    backgroundColor = Color.White
-                ),
-                trailingIcon = {
-                    Icon(
-                        imageVector = Icons.Filled.Search,
-                        contentDescription = "Search Icon"
-                    )
-                }
-            )
+            Box(
+                modifier = Modifier.fillMaxWidth() // Okienko do dodawania komentarza na szerokość ekranu
+            ) {
+                OutlinedTextField(
+                    value = viewModel.addComment.value,
+                    onValueChange = { viewModel.addComment(it) },
+                    singleLine = true,
+                    modifier = Modifier
+                        .fillMaxWidth() // Okienko do dodawania komentarza na szerokość ekranu
+                        .clip(RoundedCornerShape(50.dp)),
+                    placeholder = { Text("Add comment") },
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = Color.White,
+                        unfocusedBorderColor = Color.White,
+                        backgroundColor = Color.White
+                    ),
+                    trailingIcon = {
+                        Icon(
+                            imageVector = Icons.Filled.Send,
+                            contentDescription = "Send Icon"
+                        )
+                    }
+                )
+            }
             Spacer(modifier = Modifier.height(25.dp))
 
-            if (myTexts.value.error.isNotEmpty())
-                Text(myTexts.value.error)
-            if (myTexts.value.isLoading) {
+            if (comments.value.error.isNotEmpty())
+                Comment(comments.value.error)
+            if (comments.value.isLoading) {
                 Box(
                     modifier = Modifier
                         .align(Alignment.CenterHorizontally)
@@ -123,8 +110,8 @@ fun MyTextsScreen(
                 modifier = Modifier
                     .fillMaxSize()
             ) {
-                items(myTexts.value.data ?: emptyList()) { text ->
-                    TextItem(text, navController)
+                items(comments.value.data ?: emptyList()) { comment ->
+                    Comment(comment)
                 }
             }
         }

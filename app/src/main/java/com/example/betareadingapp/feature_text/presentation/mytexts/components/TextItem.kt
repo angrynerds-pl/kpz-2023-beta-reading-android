@@ -1,6 +1,6 @@
 package com.example.betareadingapp.feature_text.presentation.mytexts.components
 
-import android.graphics.Paint
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -13,11 +13,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.betareadingapp.feature_text.domain.model.Text
+import com.example.betareadingapp.feature_text.presentation.utill.Screen
 
 @Composable
 fun TextItem(
     text: Text,
+    navController: NavController
 ) {
     Box() {
         Card(
@@ -26,6 +29,9 @@ fun TextItem(
                 .padding(12.dp)
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(10.dp))
+                .clickable {
+                  navController.navigate(Screen.CommentsScreen.route)
+                }
         ) {
             Column(modifier = Modifier.padding(start = 2.dp)) {
                 Text(text = text.title, style = MaterialTheme.typography.h6)

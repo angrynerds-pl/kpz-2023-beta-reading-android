@@ -106,7 +106,7 @@ fun RecentTextsScreen(
                     .fillMaxSize()
             ) {
                 items(allTexts.value.data ?: emptyList()) { text ->
-                    TextItem(text)
+                    TextItem(text, navController)
                 }
             }
 

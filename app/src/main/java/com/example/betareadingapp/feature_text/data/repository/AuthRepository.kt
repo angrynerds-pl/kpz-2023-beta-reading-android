@@ -1,6 +1,7 @@
 package com.example.betareadingapp.feature_text.data.repository
 
 import android.net.Uri
+import com.example.betareadingapp.feature_text.domain.model.Comment
 import com.example.betareadingapp.feature_text.domain.model.Text
 import com.example.betareadingapp.feature_text.domain.model.User
 import com.example.betareadingapp.feature_text.domain.util.Resource
@@ -9,6 +10,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.HttpException
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.flow.Flow
@@ -156,6 +158,7 @@ constructor() {
 
         try {
             val snapshot = fireStoreDatabase.collection("Text")
+                .orderBy("timestamp", Query.Direction.DESCENDING)
                 .get().await()
 
             val texts = snapshot.documents.mapNotNull { it.toObject(Text::class.java) }
@@ -226,6 +229,26 @@ constructor() {
             return true
         } catch (e: Exception) {
             return false
+        }
+    }
+
+    fun getComments(textId: String): Flow<Resource<List<Comment>>> = flow {
+        emit(Resource.Loading())
+
+        try {
+            val snapshot = fireStoreDatabase.collection("Comments")
+                .whereEqualTo("textId", textId)
+                .get().await()
+
+            val comments = snapshot.documents.mapNotNull { it.toObject(Comment::class.java) }
+            emit(Resource.Success(comments))
+
+        } catch (e: HttpException) {
+            emit(Resource.Error(message = e.localizedMessage ?: "Unknown Error"))
+        } catch (e: IOException) {
+            emit(Resource.Error(message = e.localizedMessage ?: "Check Your Internet Connection"))
+        } catch (e: Exception) {
+            emit(Resource.Error(message = e.localizedMessage ?: ""))
         }
     }
 

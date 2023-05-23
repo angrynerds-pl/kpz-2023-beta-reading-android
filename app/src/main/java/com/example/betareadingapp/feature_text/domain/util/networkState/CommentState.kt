@@ -1,8 +1,8 @@
 package com.example.betareadingapp.feature_text.domain.util.networkState
+import com.example.betareadingapp.feature_text.domain.model.Comment
 
-import com.example.betareadingapp.feature_text.domain.model.Text
-data class MyTextsState(
-    val data : List<Text>? = emptyList(),
+data class CommentState(
+    val data: List<Comment>? = emptyList(),
     val error: String = "",
     val isLoading: Boolean = false
 )

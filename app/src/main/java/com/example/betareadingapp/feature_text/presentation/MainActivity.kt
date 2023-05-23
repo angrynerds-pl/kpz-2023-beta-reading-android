@@ -12,6 +12,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.betareadingapp.feature_text.presentation.attachfile.AttachFileScreen
 import com.example.betareadingapp.feature_text.presentation.auth.LoginScreen
+import com.example.betareadingapp.feature_text.presentation.mytexts.CommentsScreen
 import com.example.betareadingapp.feature_text.presentation.mytexts.MyTextsScreen
 import com.example.betareadingapp.feature_text.presentation.recentTexts.RecentTextsScreen
 import com.example.betareadingapp.feature_text.presentation.register.RegisterScreen
@@ -44,6 +45,9 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(Screen.RecentTextsScreen.route){
                             RecentTextsScreen(navController)
+                        }
+                        composable(Screen.CommentsScreen.route){
+                             CommentsScreen(navController)
                         }
                 }
 //                    AttachFileScreen(navController)
