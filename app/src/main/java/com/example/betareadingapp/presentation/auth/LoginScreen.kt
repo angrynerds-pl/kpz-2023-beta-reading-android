@@ -16,6 +16,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -161,7 +162,7 @@ fun LoginScreen(
                     .height(48.dp)
                     .clip(RoundedCornerShape(50.dp)),
 
-                colors = ButtonDefaults.buttonColors(backgroundColor = Color(0xFFFE902A)),
+                colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.button_orange)),
                 content = {
                     Text(
                         text = stringResource(R.string.login),

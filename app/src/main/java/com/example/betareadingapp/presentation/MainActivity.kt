@@ -10,10 +10,12 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.betareadingapp.R
 import com.example.betareadingapp.presentation.auth.LoginScreen
 import com.example.betareadingapp.presentation.mytexts.MyTextsScreen
 import com.example.betareadingapp.presentation.register.RegisterScreen
@@ -29,24 +31,24 @@ class MainActivity : ComponentActivity() {
             BetaReadingAppTheme {
                 val navController = rememberNavController()
                 // A surface container using the 'background' color from the theme
-                Surface(modifier = Modifier.fillMaxSize(), color = Color(0xFF43928A)) {
+                Surface(modifier = Modifier.fillMaxSize(), color = colorResource(R.color.background_color)) {
 
                     NavHost(navController = navController, startDestination = Screen.LoginScreen.route) {
                         composable(Screen.RegisterScreen.route) {
                             RegisterScreen(navController)
                         }
-                        composable(Screen.LoginScreen.route){
+                        composable(Screen.LoginScreen.route) {
                             LoginScreen(navController)
                         }
-                        composable(Screen.MyTextsScreen.route){
+                        composable(Screen.MyTextsScreen.route) {
                             MyTextsScreen(navController)
                         }
-                }
+                    }
 
 //                MyTextsScreen(navController)
 
+                }
             }
         }
-    }
     }
 }

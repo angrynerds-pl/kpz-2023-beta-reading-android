@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -39,7 +40,7 @@ fun MyTextsScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                backgroundColor = Color(0xFF43928A),
+                backgroundColor = colorResource(R.color.background_color),
                 contentPadding = PaddingValues(10.dp),
                 elevation = 0.dp
             ) {
@@ -105,7 +106,7 @@ fun MyTextsScreen(
     ) { paddingValues ->
         Column(
             modifier = Modifier
-                .background(Color(0xFF43928A))
+                .background(colorResource(R.color.background_color))
                 .padding(bottom = paddingValues.calculateBottomPadding()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
