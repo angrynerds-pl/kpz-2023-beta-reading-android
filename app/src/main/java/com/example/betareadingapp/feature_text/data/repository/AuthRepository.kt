@@ -21,19 +21,17 @@ class AuthRepository @Inject constructor()
     private var firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
     private val fireStoreDatabase = FirebaseFirestore.getInstance()
 
-    fun register(email: String, password: String, user: User): Flow<Resource<FirebaseUser>> = flow {
-        emit(Resource.Loading())
 
-        val result = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
-        fireStoreDatabase.collection("Users")
-            .document(firebaseAuth.currentUser!!.uid)
-            .set(user).await()
+     suspend fun register(email: String, password: String, user: User): FirebaseUser {
+
+         val result = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
+         fireStoreDatabase.collection("Users")
+             .document(firebaseAuth.currentUser!!.uid)
+             .set(user).await()
 
 
-        emit((result.user?.let {
-            Resource.Success(data = it)
-        }!!))
-    }
+         return result.user!!
+     }
 
     suspend fun login(email: String, password: String): FirebaseUser {
 

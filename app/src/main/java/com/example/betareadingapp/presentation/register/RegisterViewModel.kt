@@ -4,8 +4,10 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.betareadingapp.domain.model.RegisterData
 import com.example.betareadingapp.feature_text.data.repository.AuthRepository
 import com.example.betareadingapp.domain.model.User
+import com.example.betareadingapp.domain.use_case.auth.AuthUseCases
 import com.example.betareadingapp.domain.util.Resource
 import com.example.betareadingapp.domain.util.networkState.AuthState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,14 +19,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RegisterViewModel
-@Inject
-constructor(
-    private var authRepository: AuthRepository
+@Inject constructor(
+    private var authUseCases: AuthUseCases
 ) : ViewModel() {
 
     private val _user = MutableStateFlow(AuthState())
     val user: StateFlow<AuthState> = _user
-
 
     private val _email = mutableStateOf("")
     val email: State<String> = _email
@@ -62,21 +62,14 @@ constructor(
     }
 
     fun register() {
-        if (name.value.isEmpty() || surname.value.isEmpty()) {
-            _user.value = AuthState(error = "Empty name or surname")
-            return
-        }
-        if (password.value.isEmpty() || repeatPassword.value.isEmpty()) {
-            _user.value = AuthState(error = "Given String is empty or null")
-            return
-        }
-        if (password.value != repeatPassword.value) {
-            _user.value = AuthState(error = "Different passwords")
-            return
-
-        }
-        val user = User(name.value, surname.value, email.value)
-        authRepository.register(email.value, password.value, user).onEach {
+        val registerData = RegisterData(
+            name.value,
+            surname.value,
+            email.value,
+            password.value,
+            repeatPassword.value
+        )
+        authUseCases.registerUser(registerData).onEach {
             _user.value = when (it) {
                 is Resource.Loading -> AuthState(isLoading = true)
                 is Resource.Error -> AuthState(error = it.message ?: "")

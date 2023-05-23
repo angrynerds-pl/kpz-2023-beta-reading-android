@@ -3,9 +3,8 @@ package com.example.betareadingapp.presentation.auth
 import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.betareadingapp.domain.use_case.auth.AuthData
+import com.example.betareadingapp.domain.model.LoginData
 import com.example.betareadingapp.domain.use_case.auth.AuthUseCases
-import com.example.betareadingapp.feature_text.data.repository.AuthRepository
 import com.example.betareadingapp.domain.util.Resource
 import com.example.betareadingapp.domain.util.networkState.AuthState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -37,7 +36,7 @@ constructor(
     }
 
     fun login() {
-        authUseCases.loginUser(AuthData(email.value, password.value))
+        authUseCases.loginUser(LoginData(email.value, password.value))
             .onEach {
                 _user.value = when (it) {
                     is Resource.Loading -> AuthState(isLoading = true)
