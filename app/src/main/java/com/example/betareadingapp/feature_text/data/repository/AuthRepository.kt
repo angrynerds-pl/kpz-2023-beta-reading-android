@@ -3,7 +3,7 @@ package com.example.betareadingapp.feature_text.data.repository
 import com.example.betareadingapp.domain.model.Text
 import com.example.betareadingapp.domain.model.User
 import com.example.betareadingapp.domain.util.Resource
-import com.example.betareadingapp.domain.util.error.ExceptionHandler
+import com.example.betareadingapp.feature_text.domain.util.error.ExceptionHandler
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.HttpException
@@ -15,11 +15,8 @@ import kotlinx.coroutines.tasks.await
 import java.io.IOException
 import javax.inject.Inject
 
-class AuthRepository
-@Inject
-constructor(
-    private val exceptionHandler: ExceptionHandler
-) {
+class AuthRepository @Inject constructor()
+ {
 
     private var firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
     private val fireStoreDatabase = FirebaseFirestore.getInstance()
@@ -36,17 +33,14 @@ constructor(
         emit((result.user?.let {
             Resource.Success(data = it)
         }!!))
-    }.catch(exceptionHandler::handle)
+    }
 
-    fun login(email: String, password: String): Flow<Resource<FirebaseUser>> = flow {
+    suspend fun login(email: String, password: String): FirebaseUser {
 
-        emit(Resource.Loading())
 
             val result = firebaseAuth.signInWithEmailAndPassword(email, password).await()
-            emit((result.user?.let {
-                Resource.Success(data = it)
-            }!!))
-    }.catch(exceptionHandler::handle)
+            return result.user!!
+    }
 
     fun logOut() {
         firebaseAuth.signOut()
@@ -75,7 +69,7 @@ constructor(
                 emit(Resource.Success(data = user!!))
             }
         }
-    }.catch(exceptionHandler::handle)
+    }
 
     fun getTexts(): Flow<Resource<List<Text>>> = flow {
         emit(Resource.Loading())
@@ -94,6 +88,7 @@ constructor(
             emit(Resource.Error(message = "User not logged in"))
         }
 
-    }.catch(exceptionHandler::handle)
+    }
+//        .catch(exceptionHandler::handle)
 
 }

@@ -1,16 +1,28 @@
-package com.example.betareadingapp.domain.util.error
+package com.example.betareadingapp.feature_text.domain.util.error
 
 import com.example.betareadingapp.domain.util.Resource
 import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.HttpException
 import kotlinx.coroutines.flow.FlowCollector
 import java.io.IOException
 
-fun createDefaultHandler(): ExceptionHandler = createChainOfHandlers(::HttpExceptionHandler) {
-    then(::IOExceptionHandler)
-    then(::GeneralExceptionHandler)
+fun createDefaultHandler(): ExceptionHandler {
+    val httpHandler = HttpExceptionHandler()
+    val ioHandler = IOExceptionHandler()
+    val generalHandler = GeneralExceptionHandler()
+
+    httpHandler.withNext(ioHandler)
+    ioHandler.withNext(generalHandler)
+
+    return httpHandler
 }
 
-abstract class ExceptionHandler(protected var next: ExceptionHandler?) {
+abstract class ExceptionHandler {
+
+    protected var next: ExceptionHandler? = null
+
+    fun withNext(next: ExceptionHandler) {
+        this.next = next
+    }
 
     open suspend fun <T> handle(
         flowCollector: FlowCollector<Resource<T>>,
@@ -18,7 +30,7 @@ abstract class ExceptionHandler(protected var next: ExceptionHandler?) {
     ): Unit = next?.handle(flowCollector, exception) ?: throw exception
 }
 
-class HttpExceptionHandler(next: ExceptionHandler?) : ExceptionHandler(next) {
+class HttpExceptionHandler : ExceptionHandler() {
     override suspend fun <T> handle(
         flowCollector: FlowCollector<Resource<T>>,
         exception: Throwable
@@ -32,7 +44,7 @@ class HttpExceptionHandler(next: ExceptionHandler?) : ExceptionHandler(next) {
     }
 }
 
-class IOExceptionHandler(next: ExceptionHandler?) : ExceptionHandler(next) {
+class IOExceptionHandler : ExceptionHandler() {
     override suspend fun <T> handle(
         flowCollector: FlowCollector<Resource<T>>,
         exception: Throwable
@@ -48,7 +60,7 @@ class IOExceptionHandler(next: ExceptionHandler?) : ExceptionHandler(next) {
     }
 }
 
-class GeneralExceptionHandler(next: ExceptionHandler?) : ExceptionHandler(next) {
+class GeneralExceptionHandler : ExceptionHandler() {
     override suspend fun <T> handle(
         flowCollector: FlowCollector<Resource<T>>,
         exception: Throwable

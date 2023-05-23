@@ -77,18 +77,10 @@ constructor(
         }
         val user = User(name.value, surname.value, email.value)
         authRepository.register(email.value, password.value, user).onEach {
-            when (it) {
-                is Resource.Loading -> {
-                    _user.value = AuthState(isLoading = true)
-                }
-
-                is Resource.Error -> {
-                    _user.value = AuthState(error = it.message ?: "")
-                }
-
-                is Resource.Success -> {
-                    _user.value = AuthState(data = it.data)
-                }
+            _user.value = when (it) {
+                is Resource.Loading -> AuthState(isLoading = true)
+                is Resource.Error -> AuthState(error = it.message ?: "")
+                is Resource.Success -> AuthState(data = it.data)
             }
         }.launchIn(viewModelScope)
     }

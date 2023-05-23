@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.betareadingapp.feature_text.data.repository.AuthRepository
 import com.example.betareadingapp.domain.model.Text
 import com.example.betareadingapp.domain.util.Resource
+import com.example.betareadingapp.domain.util.networkState.AuthState
 import com.example.betareadingapp.domain.util.networkState.MyTextsState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -61,21 +62,11 @@ constructor(
 
     fun getUserTexts() {
         authRepository.getTexts().onEach {
-            when (it) {
-                is Resource.Loading -> {
-                    _myTexts.value = MyTextsState(isLoading = true)
-                }
-
-                is Resource.Error -> {
-                    _myTexts.value = MyTextsState(error = it.message ?: "")
-                }
-
-                is Resource.Success -> {
-                    _myTexts.value = MyTextsState(data = it.data)
-                }
+            _myTexts.value = when (it) {
+                is Resource.Loading -> MyTextsState(isLoading = true)
+                is Resource.Error -> MyTextsState(error = it.message ?: "")
+                is Resource.Success -> MyTextsState(data = it.data)
             }
         }.launchIn(viewModelScope)
     }
-
-
 }

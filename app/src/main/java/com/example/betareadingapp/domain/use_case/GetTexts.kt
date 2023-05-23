@@ -10,17 +10,17 @@ import kotlinx.coroutines.flow.map
 class GetTexts(
     private val repository: TextRepository
 ) {
-    operator fun invoke(
-        textOrder: TextOrder = TextOrder.Date(OrderType.Descending)
-    ): Flow<List<Text>> {
-        return repository.getTexts().map { texts ->
-            when(textOrder.orderType){
-                is OrderType.Descending -> {
-                    when (textOrder){
-                        is TextOrder.Date -> texts.sortedBy{it.timestamp}
-                    }
-                }
-            }
-        }
-    }
+//    operator fun invoke(
+//        textOrder: TextOrder = TextOrder.Date(OrderType.Descending)
+//    ): Flow<List<Text>> {
+//        return repository.getTexts().map { texts ->
+//            when(textOrder.orderType){
+//                is OrderType.Descending -> {
+//                    when (textOrder){
+//                        is TextOrder.Date -> texts.sortedBy{it.timestamp}
+//                    }
+//                }
+//            }
+//        }
+//    }
 }

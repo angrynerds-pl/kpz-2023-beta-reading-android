@@ -153,10 +153,7 @@ fun LoginScreen(
 
             Button(
                 onClick = {
-                    viewModel.login(
-                        viewModel.email.value,
-                        viewModel.password.value,
-                    )
+                    viewModel.login()
                 },
                 modifier = Modifier
                     .padding(top = 16.dp)
