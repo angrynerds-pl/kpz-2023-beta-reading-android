@@ -6,3 +6,5 @@ sealed class RegisterValidationResult {
     object Success : RegisterValidationResult()
     data class Error(val message: String) : RegisterValidationResult()
 }
+
+
