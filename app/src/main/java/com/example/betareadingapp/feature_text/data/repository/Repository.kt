@@ -105,8 +105,8 @@ class Repository @Inject constructor(
 
         val user = getUserData()
 
-        val uniqueId = fireStoreDatabase.collection("Text").document().id
-        val pdfReference = Firebase.storage.reference.child("pdfs/${uniqueId}_${fileName}")
+        val textId = fireStoreDatabase.collection("Text").document().id
+        val pdfReference = Firebase.storage.reference.child("pdfs/${textId}_${fileName}")
 
         val pdfSnapshot = pdfReference.putFile(uri).await()
         val downloadUrl = pdfSnapshot.storage.downloadUrl.await()
@@ -115,6 +115,7 @@ class Repository @Inject constructor(
         val author = "${user.name} + ${user.surname}"
 
         val newText = hashMapOf(
+            "textId" to textId,
             "userId" to userId,
             "author" to author,
             "title" to title,
@@ -122,11 +123,11 @@ class Repository @Inject constructor(
             "file" to downloadUrl.toString(),
             "timestamp" to Timestamp.now()
         )
-        saveTextToFirestore(newText, uniqueId)
+        saveTextToFirestore(newText, textId)
     }
-    suspend fun saveTextToFirestore(newText: Map<String, Any>, uniqueId: String) {
+    suspend fun saveTextToFirestore(newText: Map<String, Any>, textId: String) {
         fireStoreDatabase.collection("Text")
-            .document(uniqueId).set(newText).await()
+            .document(textId).set(newText).await()
     }
 
 }
