@@ -6,7 +6,7 @@ import com.google.firebase.Timestamp
 
 data class Text(
     val userId : String = "",
-    val autor : String = "",
+    val author : String = "",
     val title: String = "",
     val content: String = "",
     val file : String = "",

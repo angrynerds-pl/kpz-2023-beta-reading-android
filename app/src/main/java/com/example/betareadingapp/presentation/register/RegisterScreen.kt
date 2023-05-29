@@ -36,7 +36,7 @@ fun RegisterScreen(
     navController: NavController,
     viewModel: RegisterViewModel = hiltViewModel()
 ) {
-    val userState = viewModel.user.collectAsState()
+    val userState = viewModel.authState.collectAsState()
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -220,7 +220,7 @@ fun RegisterScreen(
                 },
             )
 
-            if (!userState.value.error.isEmpty())
+            if (userState.value.error.isNotEmpty())
                 Text(
                     text = userState.value.error,
                     textAlign = TextAlign.Center,

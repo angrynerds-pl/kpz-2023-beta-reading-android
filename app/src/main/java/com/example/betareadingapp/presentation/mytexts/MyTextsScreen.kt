@@ -5,15 +5,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,8 +24,9 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.betareadingapp.R
-import com.example.betareadingapp.presentation.auth.AuthViewModel
+import com.example.betareadingapp.presentation.utill.Screen
 import com.example.betareadingapp.presentation.mytexts.components.TextItem
+import com.example.betareadingapp.feature_text.presentation.BottomBar
 
 @Composable
 fun MyTextsScreen(
@@ -36,7 +34,7 @@ fun MyTextsScreen(
     viewModel: MyTextsViewModel = hiltViewModel()
 ) {
 
-    val myTexts = viewModel.myTexts.collectAsState()
+    val myTexts = viewModel.myTextsState.collectAsState()
     Scaffold(
         topBar = {
             TopAppBar(
@@ -61,7 +59,7 @@ fun MyTextsScreen(
                             color = Color.White,
                             modifier = Modifier.padding(top = 10.dp)
                         )
-                        IconButton(onClick = {}) {
+                        IconButton(onClick = { navController.navigate(Screen.AttachFileScreen.route)}) {
                             Icon(
                                 Icons.Default.Add,
                                 contentDescription = "Add",
@@ -79,29 +77,7 @@ fun MyTextsScreen(
             }
         },
         bottomBar = {
-            BottomAppBar(
-                backgroundColor = Color.White
-            ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceEvenly,
-
-
-                    ) {
-                    IconButton(onClick = { }) {
-                        Icon(Icons.Filled.Home, contentDescription = "")
-                    }
-                    IconButton(onClick = { }) {
-                        Icon(Icons.Filled.Chat, contentDescription = "")
-                    }
-                    IconButton(onClick = { }) {
-                        Icon(Icons.Default.Book, contentDescription = "")
-                    }
-                    IconButton(onClick = { }) {
-                        Icon(Icons.Filled.Person, contentDescription = "")
-                    }
-                }
-            }
+            BottomBar(navController)
         }
     ) { paddingValues ->
         Column(

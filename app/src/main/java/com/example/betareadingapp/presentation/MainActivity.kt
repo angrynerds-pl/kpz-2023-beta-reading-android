@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -20,6 +19,7 @@ import com.example.betareadingapp.presentation.auth.LoginScreen
 import com.example.betareadingapp.presentation.mytexts.MyTextsScreen
 import com.example.betareadingapp.presentation.register.RegisterScreen
 import com.example.betareadingapp.presentation.utill.Screen
+import com.example.betareadingapp.feature_text.presentation.attachfile.AttachFileScreen
 import com.example.betareadingapp.ui.theme.BetaReadingAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -43,10 +43,10 @@ class MainActivity : ComponentActivity() {
                         composable(Screen.MyTextsScreen.route) {
                             MyTextsScreen(navController)
                         }
+                        composable(Screen.AttachFileScreen.route) {
+                            AttachFileScreen(navController)
+                        }
                     }
-
-//                MyTextsScreen(navController)
-
                 }
             }
         }

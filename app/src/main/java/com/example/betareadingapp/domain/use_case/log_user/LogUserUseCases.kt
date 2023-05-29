@@ -4,5 +4,7 @@ import javax.inject.Inject
 
 class LogUserUseCases
 @Inject constructor(
-    val getMyTexts: GetMyTexts
+    val getMyTexts: GetMyTexts,
+    val getFileNameFromUri: GetFileNameFromUri,
+    val uploadNotePdf: UploadNotePdf
 )

@@ -2,7 +2,7 @@ package com.example.betareadingapp.domain.use_case.auth
 
 import com.example.betareadingapp.domain.model.LoginData
 import com.example.betareadingapp.domain.util.Resource
-import com.example.betareadingapp.feature_text.data.repository.AuthRepository
+import com.example.betareadingapp.feature_text.data.repository.Repository
 import com.example.betareadingapp.feature_text.domain.util.error.ExceptionHandler
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.flow.Flow
@@ -14,12 +14,12 @@ import javax.inject.Inject
 class LoginUser
 @Inject constructor(
     private val exceptionHandler: ExceptionHandler,
-    private val authRepository: AuthRepository
+    private val repository: Repository
 ) {
     operator fun invoke(loginData: LoginData): Flow<Resource<FirebaseUser>> = flow {
         emit(Resource.Loading())
 
-       val user = authRepository.login(loginData.login, loginData.password)
+       val user = repository.login(loginData.login, loginData.password)
         emit(Resource.Success(user))
         
     }.catch(exceptionHandler::handle)

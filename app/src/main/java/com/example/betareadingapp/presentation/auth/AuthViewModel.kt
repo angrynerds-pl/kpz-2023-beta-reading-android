@@ -15,11 +15,11 @@ import javax.inject.Inject
 class AuthViewModel
 @Inject
 constructor(
-    private var authUseCases: AuthUseCases,
+    private val authUseCases: AuthUseCases,
 ) : ViewModel() {
 
-    private val _user = MutableStateFlow(AuthState())
-    val user: StateFlow<AuthState> = _user
+    private val _authState = MutableStateFlow(AuthState())
+    val authState: StateFlow<AuthState> = _authState
 
     private val _email = mutableStateOf("")
     val email: State<String> = _email
@@ -38,7 +38,7 @@ constructor(
     fun login() {
         authUseCases.loginUser(LoginData(email.value, password.value))
             .onEach {
-                _user.value = when (it) {
+                _authState.value = when (it) {
                     is Resource.Loading -> AuthState(isLoading = true)
                     is Resource.Error -> AuthState(error = it.message ?: "")
                     is Resource.Success -> AuthState(data = it.data)

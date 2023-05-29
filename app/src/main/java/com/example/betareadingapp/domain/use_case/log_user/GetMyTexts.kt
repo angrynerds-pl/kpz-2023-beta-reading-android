@@ -2,7 +2,7 @@ package com.example.betareadingapp.domain.use_case.log_user
 
 import com.example.betareadingapp.domain.model.Text
 import com.example.betareadingapp.domain.util.Resource
-import com.example.betareadingapp.feature_text.data.repository.AuthRepository
+import com.example.betareadingapp.feature_text.data.repository.Repository
 import com.example.betareadingapp.feature_text.domain.util.error.ExceptionHandler
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -11,14 +11,14 @@ import javax.inject.Inject
 
 class GetMyTexts
 @Inject constructor(
-    private val authRepository: AuthRepository,
+    private val repository: Repository,
     private val exceptionHandler: ExceptionHandler
 ) {
 
     operator fun invoke(): Flow<Resource<List<Text>>> = flow {
         emit(Resource.Loading())
 
-        val texts = authRepository.getTexts()
+        val texts = repository.getTexts()
 
         emit(Resource.Success(texts))
 

@@ -4,11 +4,8 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.betareadingapp.feature_text.data.repository.AuthRepository
-import com.example.betareadingapp.domain.model.Text
 import com.example.betareadingapp.domain.use_case.log_user.LogUserUseCases
 import com.example.betareadingapp.domain.util.Resource
-import com.example.betareadingapp.domain.util.networkState.AuthState
 import com.example.betareadingapp.domain.util.networkState.MyTextsState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,11 +18,11 @@ import javax.inject.Inject
 class MyTextsViewModel
 @Inject
 constructor(
-    private var logUserUseCases: LogUserUseCases
+    private val logUserUseCases: LogUserUseCases
 ) : ViewModel() {
-    private val _myTexts = MutableStateFlow(MyTextsState())
+    private val _myTextsState = MutableStateFlow(MyTextsState())
 
-    val myTexts: StateFlow<MyTextsState> = _myTexts
+    val myTextsState: StateFlow<MyTextsState> = _myTextsState
 
     val _search = mutableStateOf("")
     val search: State<String> = _search
@@ -40,7 +37,7 @@ constructor(
 
     fun getUserTexts() {
         logUserUseCases.getMyTexts.invoke().onEach {
-            _myTexts.value = when (it) {
+            _myTextsState.value = when (it) {
                 is Resource.Loading -> MyTextsState(isLoading = true)
                 is Resource.Error -> MyTextsState(error = it.message ?: "")
                 is Resource.Success -> MyTextsState(data = it.data)

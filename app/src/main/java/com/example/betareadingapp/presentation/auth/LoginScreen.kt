@@ -33,7 +33,7 @@ fun LoginScreen(
     navController: NavController,
     viewModel: AuthViewModel = hiltViewModel()
 ) {
-    val userState = viewModel.user.collectAsState()
+    val userState = viewModel.authState.collectAsState()
     Box(
         modifier = Modifier
             .fillMaxSize()

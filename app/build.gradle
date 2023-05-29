@@ -135,6 +135,6 @@ dependencies {
     //Firebase
     implementation 'com.google.firebase:firebase-auth:21.0.7'
     implementation 'com.google.firebase:firebase-firestore-ktx:24.2.2'
-
+    implementation 'com.google.firebase:firebase-storage-ktx:20.1.0'
 
 }

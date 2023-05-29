@@ -5,8 +5,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.betareadingapp.domain.model.RegisterData
-import com.example.betareadingapp.feature_text.data.repository.AuthRepository
-import com.example.betareadingapp.domain.model.User
 import com.example.betareadingapp.domain.use_case.auth.AuthUseCases
 import com.example.betareadingapp.domain.util.Resource
 import com.example.betareadingapp.domain.util.networkState.AuthState
@@ -20,11 +18,11 @@ import javax.inject.Inject
 @HiltViewModel
 class RegisterViewModel
 @Inject constructor(
-    private var authUseCases: AuthUseCases
+    private val authUseCases: AuthUseCases
 ) : ViewModel() {
 
-    private val _user = MutableStateFlow(AuthState())
-    val user: StateFlow<AuthState> = _user
+    private val _authState = MutableStateFlow(AuthState())
+    val authState: StateFlow<AuthState> = _authState
 
     private val _email = mutableStateOf("")
     val email: State<String> = _email
@@ -70,7 +68,7 @@ class RegisterViewModel
             repeatPassword.value
         )
         authUseCases.registerUser(registerData).onEach {
-            _user.value = when (it) {
+            _authState.value = when (it) {
                 is Resource.Loading -> AuthState(isLoading = true)
                 is Resource.Error -> AuthState(error = it.message ?: "")
                 is Resource.Success -> AuthState(data = it.data)

@@ -4,6 +4,7 @@ import android.content.Context
 
 import com.example.betareadingapp.feature_text.domain.util.error.ExceptionHandler
 import com.example.betareadingapp.feature_text.domain.util.error.createDefaultHandler
+
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,6 +20,8 @@ object TextModule {
     fun provideContext(@ApplicationContext appContext: Context): Context {
         return appContext
     }
+
+
 
     @Provides
     @Singleton
