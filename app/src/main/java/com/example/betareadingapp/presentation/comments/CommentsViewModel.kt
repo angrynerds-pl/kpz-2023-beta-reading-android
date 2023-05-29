@@ -1,4 +1,10 @@
 package com.example.betareadingapp.presentation.comments
 
-class CommentsViewModel {
+import androidx.lifecycle.ViewModel
+import javax.inject.Inject
+
+class CommentsViewModel
+@Inject constructor()
+    : ViewModel(){
+
 }

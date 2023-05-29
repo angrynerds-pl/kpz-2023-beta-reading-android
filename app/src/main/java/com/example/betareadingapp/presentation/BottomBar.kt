@@ -25,8 +25,6 @@ fun BottomBar(navController: NavController) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly,
-
-
             ) {
             IconButton(onClick = { }) {
                 Icon(Icons.Filled.Home, contentDescription = "")
