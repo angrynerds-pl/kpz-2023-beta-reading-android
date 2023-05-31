@@ -11,15 +11,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.navigation.NavArgument
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.betareadingapp.R
 import com.example.betareadingapp.presentation.auth.LoginScreen
 import com.example.betareadingapp.presentation.mytexts.MyTextsScreen
 import com.example.betareadingapp.presentation.register.RegisterScreen
 import com.example.betareadingapp.presentation.utill.Screen
 import com.example.betareadingapp.feature_text.presentation.attachfile.AttachFileScreen
+import com.example.betareadingapp.presentation.comments.CommentsScreen
 import com.example.betareadingapp.ui.theme.BetaReadingAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -45,6 +49,20 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(Screen.AttachFileScreen.route) {
                             AttachFileScreen(navController)
+                        }
+                        composable(
+                            route = Screen.CommentsScreen.route +
+                                    "?textId={textId}",
+                            arguments = listOf(
+                                navArgument(
+                                    name = "textId"
+                                ) {
+                                    type = NavType.StringType
+                                    defaultValue = ""
+                                },
+                            )
+                        ) {
+                            CommentsScreen(navController)
                         }
                     }
                 }

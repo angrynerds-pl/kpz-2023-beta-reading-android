@@ -59,7 +59,7 @@ fun MyTextsScreen(
                             color = Color.White,
                             modifier = Modifier.padding(top = 10.dp)
                         )
-                        IconButton(onClick = { navController.navigate(Screen.AttachFileScreen.route)}) {
+                        IconButton(onClick = { navController.navigate(Screen.AttachFileScreen.route) }) {
                             Icon(
                                 Icons.Default.Add,
                                 contentDescription = "Add",
@@ -126,7 +126,17 @@ fun MyTextsScreen(
                     .fillMaxSize()
             ) {
                 items(myTexts.value.data ?: emptyList()) { text ->
-                    TextItem(text)
+                    TextItem(text, {
+                        navController.navigate(
+                            Screen.CommentsScreen.route +
+                                    "?textId=${text.textId}"
+                        )
+                    }, {
+                        navController.navigate(
+                            Screen.CommentsScreen.route +
+                                    "?textId=${text.textId}"
+                        )
+                    })
                 }
             }
 

@@ -23,8 +23,7 @@ class Repository @Inject constructor(
 
 
     private var firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
-    private val fireStoreDatabase = FirebaseFirestore.getInstance()
-
+    private var fireStoreDatabase = FirebaseFirestore.getInstance()
 
     suspend fun register(email: String, password: String, user: User): FirebaseUser {
         val result = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
@@ -65,7 +64,27 @@ class Repository @Inject constructor(
 //        }
 //    }
 
+    suspend fun uploadComment(textId: String, content: String) {
 
+        val userId = firebaseAuth.currentUser?.uid ?: throw UserNotLoggedInException()
+
+        val user = getUserData()
+
+        val author = "${user.name} ${user.surname}"
+
+        val commentId = fireStoreDatabase.collection("Comments").document().id
+
+        val newComment = hashMapOf(
+            "textId" to textId,
+            "userId" to userId,
+            "commentId" to commentId,
+            "timestamp" to Timestamp.now(),
+            "content" to content,
+            "author" to author
+        )
+        fireStoreDatabase.collection("Comments")
+            .document(commentId).set(newComment).await()
+    }
 
 
     suspend fun getTexts(): List<Text> {
@@ -83,7 +102,7 @@ class Repository @Inject constructor(
 
         val userId = firebaseAuth.currentUser?.uid ?: throw UserNotLoggedInException()
 
-        val snapshot =  withTimeout(10000) {
+        val snapshot = withTimeout(10000) {
             fireStoreDatabase.collection("Users")
                 .document(userId).get().await()
         }
@@ -112,7 +131,7 @@ class Repository @Inject constructor(
         val downloadUrl = pdfSnapshot.storage.downloadUrl.await()
 
 
-        val author = "${user.name} + ${user.surname}"
+        val author = "${user.name} ${user.surname}"
 
         val newText = hashMapOf(
             "textId" to textId,
@@ -121,10 +140,12 @@ class Repository @Inject constructor(
             "title" to title,
             "content" to content,
             "file" to downloadUrl.toString(),
-            "timestamp" to Timestamp.now()
+            "timestamp" to Timestamp.now(),
+            "commentCount" to 0
         )
         saveTextToFirestore(newText, textId)
     }
+
     suspend fun saveTextToFirestore(newText: Map<String, Any>, textId: String) {
         fireStoreDatabase.collection("Text")
             .document(textId).set(newText).await()

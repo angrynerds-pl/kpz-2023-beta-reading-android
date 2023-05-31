@@ -6,5 +6,6 @@ class LogUserUseCases
 @Inject constructor(
     val getMyTexts: GetMyTexts,
     val getFileNameFromUri: GetFileNameFromUri,
-    val uploadNotePdf: UploadNotePdf
+    val uploadNotePdf: UploadNotePdf,
+    val addComment : AddComment
 )

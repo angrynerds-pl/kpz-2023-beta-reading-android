@@ -4,6 +4,7 @@ import android.content.Context
 
 import com.example.betareadingapp.feature_text.domain.util.error.ExceptionHandler
 import com.example.betareadingapp.feature_text.domain.util.error.createDefaultHandler
+import com.google.firebase.firestore.FirebaseFirestore
 
 import dagger.Module
 import dagger.Provides
@@ -20,7 +21,6 @@ object TextModule {
     fun provideContext(@ApplicationContext appContext: Context): Context {
         return appContext
     }
-
 
 
     @Provides
