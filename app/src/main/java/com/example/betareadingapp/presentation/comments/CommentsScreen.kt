@@ -9,7 +9,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -20,11 +19,11 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.asFlow
 import androidx.navigation.NavController
 import com.example.betareadingapp.R
 import com.example.betareadingapp.feature_text.presentation.BottomBar
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.example.betareadingapp.presentation.comments.components.CommentItem
 
 @Composable
 fun CommentsScreen(

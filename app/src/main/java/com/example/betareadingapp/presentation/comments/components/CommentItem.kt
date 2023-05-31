@@ -1,4 +1,4 @@
-package com.example.betareadingapp.presentation.comments
+package com.example.betareadingapp.presentation.comments.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -14,7 +14,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.betareadingapp.domain.model.Comment
-import com.example.betareadingapp.domain.model.Text
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -22,32 +21,29 @@ import java.util.*
 
 fun CommentItem(
     navController: NavController,
-    comment: Comment
+    comment: Comment,
 ) {
 
-    val format = SimpleDateFormat("HH:mm dd/MM/yyyy", Locale.getDefault())
-    val dateString = format.format(comment.timestamp?.toDate())
-    Box() {
-        Card(
-            elevation = 4.dp,
-            modifier = Modifier
-                .padding(12.dp)
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(10.dp))
+    val dateString = SimpleDateFormat("HH:mm dd/MM/yyyy", Locale.getDefault()).format(comment.timestamp?.toDate())
+    Card(
+        elevation = 4.dp,
+        modifier = Modifier
+            .padding(12.dp)
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(10.dp))
+    ) {
+        Box(
+            modifier = Modifier.fillMaxSize()
         ) {
-            Box(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                Column(modifier = Modifier.padding(start = 2.dp, end = 52.dp)) {
-                    Text(text = comment.author, style = MaterialTheme.typography.h6)
-                    Text(text = dateString, fontSize = 14.sp)
-                    Spacer(modifier = Modifier.height(6.dp))
-                    Text(
-                        text = comment.content.take(300), fontSize = 12.sp,
-                        textAlign = TextAlign.Center,
-                        color = Color.Gray
-                    )
-                }
+            Column(modifier = Modifier.padding(start = 2.dp, end = 52.dp)) {
+                Text(text = comment.author, style = MaterialTheme.typography.h6)
+                Text(text = dateString, fontSize = 14.sp)
+                Spacer(modifier = Modifier.height(6.dp))
+                Text(
+                    text = comment.content.take(300), fontSize = 12.sp,
+                    textAlign = TextAlign.Center,
+                    color = Color.Gray
+                )
             }
         }
     }

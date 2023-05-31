@@ -32,6 +32,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.betareadingapp.R
 import com.example.betareadingapp.feature_text.presentation.BottomBar
+import com.example.betareadingapp.presentation.components.TopBarWithImage
 import kotlinx.coroutines.flow.collect
 
 
@@ -49,40 +50,11 @@ fun AttachFileScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                backgroundColor = colorResource(R.color.background_color),
-                contentPadding = PaddingValues(10.dp),
-                elevation = 0.dp
-            )
-            {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 15.dp),
-                ) {
-                    Text(
-                        stringResource(R.string.add_text),
-                        color = Color.White,
-                        fontSize = 22.sp,
-                        modifier = Modifier.align(Alignment.CenterVertically)
-                    )
-                    Spacer(modifier = Modifier.weight(1f))
-                    Image(
-                        painter = painterResource(id = R.drawable.smalllogo),
-                        contentDescription = "Small Logo",
-                        modifier = Modifier
-                            .size(60.dp)
-                            .align(Alignment.CenterVertically)
-                    )
-                }
-            }
-
+            TopBarWithImage(stringResource(R.string.add_text))
         },
         bottomBar = {
             BottomBar(navController)
         }
-
-
     ) { paddingValues ->
         Column(
             modifier = Modifier

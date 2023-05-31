@@ -98,6 +98,18 @@ class Repository @Inject constructor(
         return notes
     }
 
+    suspend fun getRecentTexts(filterValue : String): List<Text> {
+        val endValue = filterValue + "\uf8ff"
+        val snapshot = fireStoreDatabase.collection("Text")
+            .whereGreaterThanOrEqualTo("title", filterValue)
+            .whereLessThan("title", endValue)
+            .orderBy("timestamp")
+            .limit(100L)
+            .get().await()
+        val notes = snapshot.documents.mapNotNull { it.toObject(Text::class.java) }
+        return notes
+    }
+
     suspend fun getUserData(): User {
 
         val userId = firebaseAuth.currentUser?.uid ?: throw UserNotLoggedInException()
