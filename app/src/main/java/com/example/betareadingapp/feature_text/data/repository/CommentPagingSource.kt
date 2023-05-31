@@ -31,7 +31,7 @@ class CommentPagingSource(
                 .get()
                 .await()
 
-            val comments = currentPage.documents.mapNotNull { it.toObject(Comment::class.java) }
+            val comments = currentPage.documents.mapNotNull { documentToComment(it) }
 
             val lastVisible = currentPage.documents.lastOrNull()
 
@@ -49,5 +49,15 @@ class CommentPagingSource(
 
     override fun getRefreshKey(state: PagingState<DocumentSnapshot, Comment>): DocumentSnapshot? {
         return null
+    }
+    fun documentToComment(doc: DocumentSnapshot): Comment? {
+        val textId = doc.getString("textId") ?: return null
+        val userId = doc.getString("userId") ?: return null
+        val commentId = doc.getString("commentId") ?: return null
+        val timestamp = doc.getTimestamp("timestamp") ?: return null
+        val content = doc.getString("content") ?: return null
+        val author = doc.getString("author") ?: return null
+
+        return Comment(textId, userId, commentId, timestamp, content, author)
     }
 }

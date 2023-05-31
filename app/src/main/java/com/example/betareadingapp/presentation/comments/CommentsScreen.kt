@@ -49,7 +49,9 @@ fun CommentsScreen(
                 .padding(bottom = paddingValues.calculateBottomPadding()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            LazyColumn(modifier = Modifier.weight(1f)) {
+            LazyColumn(modifier = Modifier
+                .weight(1f)
+                .fillMaxSize()) {
                 items(count = lazyPagingItems.itemCount) { index ->
                     val comment = lazyPagingItems[index]
                     if (comment != null) {
@@ -66,7 +68,7 @@ fun CommentsScreen(
                     .fillMaxWidth(0.9f)
                     .align(Alignment.CenterHorizontally)
                     .clip(RoundedCornerShape(10.dp))
-                    .padding(10.dp),
+                    .padding(top = 10.dp, bottom = 10.dp),
                 placeholder = { Text(stringResource(R.string.add_coment)) },
                 colors = TextFieldDefaults.outlinedTextFieldColors(
                     focusedBorderColor = Color.White,
