@@ -103,6 +103,7 @@ class Repository @Inject constructor(
         val snapshot = fireStoreDatabase.collection("Text")
             .whereGreaterThanOrEqualTo("title", filterValue)
             .whereLessThan("title", endValue)
+            .orderBy("title")
             .orderBy("timestamp")
             .limit(100L)
             .get().await()

@@ -89,7 +89,10 @@ fun MyTextsScreen(
             Spacer(modifier = Modifier.height(25.dp))
             OutlinedTextField(
                 value = viewModel.search.value,
-                onValueChange = { viewModel.setSearch(it) },
+                onValueChange = {
+                    viewModel.setSearch(it)
+                    viewModel.filterTexts()
+                },
                 singleLine = true,
                 modifier = Modifier
                     .fillMaxWidth(0.7f)
@@ -125,7 +128,7 @@ fun MyTextsScreen(
                 modifier = Modifier
                     .fillMaxSize()
             ) {
-                items(myTexts.value.data ?: emptyList()) { text ->
+                items(myTexts.value.filterData ?: emptyList()) { text ->
                     TextItem(text, {
                         navController.navigate(
                             Screen.CommentsScreen.route +

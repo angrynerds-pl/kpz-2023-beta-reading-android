@@ -24,6 +24,7 @@ import com.example.betareadingapp.presentation.register.RegisterScreen
 import com.example.betareadingapp.presentation.utill.Screen
 import com.example.betareadingapp.feature_text.presentation.attachfile.AttachFileScreen
 import com.example.betareadingapp.presentation.comments.CommentsScreen
+import com.example.betareadingapp.presentation.recenttexts.RecentTextsScreen
 import com.example.betareadingapp.ui.theme.BetaReadingAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -63,6 +64,9 @@ class MainActivity : ComponentActivity() {
                             )
                         ) {
                             CommentsScreen(navController)
+                        }
+                        composable(Screen.RecentTextsScreen.route){
+                            RecentTextsScreen(navController)
                         }
                     }
                 }
