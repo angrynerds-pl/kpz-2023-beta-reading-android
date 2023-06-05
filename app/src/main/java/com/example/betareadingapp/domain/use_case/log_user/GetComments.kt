@@ -12,7 +12,6 @@ import javax.inject.Inject
 
 class GetComments
 @Inject constructor(
-    exceptionHandler: ExceptionHandler
 ) {
     operator fun invoke(commentPagingSource: CommentPagingSource): Flow<PagingData<Comment>> {
 

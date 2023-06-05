@@ -30,7 +30,6 @@ fun CommentsScreen(
     navController: NavController,
     viewModel: CommentsViewModel = hiltViewModel()
 ) {
-    var textFieldValue by remember { mutableStateOf("") }
     val lazyPagingItems = viewModel.commentsFlow.collectAsLazyPagingItems()
     Scaffold(
         topBar = {
