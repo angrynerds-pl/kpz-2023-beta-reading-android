@@ -4,14 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
-import androidx.navigation.NavArgument
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -65,7 +60,7 @@ class MainActivity : ComponentActivity() {
                         ) {
                             CommentsScreen(navController)
                         }
-                        composable(Screen.RecentTextsScreen.route){
+                        composable(Screen.RecentTextsScreen.route) {
                             RecentTextsScreen(navController)
                         }
                     }

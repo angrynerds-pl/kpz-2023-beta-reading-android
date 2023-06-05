@@ -1,8 +1,10 @@
 package com.example.betareadingapp.feature_text.data.repository
 
+import android.content.Context
 import com.example.betareadingapp.domain.model.Text
 import com.example.betareadingapp.domain.model.User
 import android.net.Uri
+import android.os.Environment
 import com.example.betareadingapp.domain.util.error.EmptyUserException
 import com.example.betareadingapp.domain.util.error.NullSnapshotException
 import com.example.betareadingapp.domain.util.error.UserDeserializationException
@@ -14,14 +16,14 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withTimeout
+import java.io.File
 import javax.inject.Inject
 
 class Repository @Inject constructor(
 ) {
-
-
     private var firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
     private var fireStoreDatabase = FirebaseFirestore.getInstance()
 
@@ -64,6 +66,15 @@ class Repository @Inject constructor(
 //        }
 //    }
 
+
+    suspend fun downloadPdf(storageUrl: String): Uri {
+        val storageReference = Firebase.storage.getReferenceFromUrl(storageUrl)
+        val fileName = storageReference.name.substringAfter("_")
+        val localFile = File.createTempFile(fileName, "")
+        storageReference.getFile(localFile).await()
+        return Uri.fromFile(localFile)
+    }
+
     suspend fun uploadComment(textId: String, content: String) {
 
         val userId = firebaseAuth.currentUser?.uid ?: throw UserNotLoggedInException()
@@ -98,7 +109,7 @@ class Repository @Inject constructor(
         return notes
     }
 
-    suspend fun getRecentTexts(filterValue : String): List<Text> {
+    suspend fun getRecentTexts(filterValue: String): List<Text> {
         val endValue = filterValue + "\uf8ff"
         val snapshot = fireStoreDatabase.collection("Text")
             .whereGreaterThanOrEqualTo("title", filterValue)

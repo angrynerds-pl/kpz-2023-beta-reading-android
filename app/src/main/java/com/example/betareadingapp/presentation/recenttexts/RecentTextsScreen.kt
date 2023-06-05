@@ -1,5 +1,9 @@
 package com.example.betareadingapp.presentation.recenttexts
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -10,16 +14,18 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.SemanticsProperties.ImeAction
 import androidx.compose.ui.unit.dp
+import androidx.core.app.ActivityCompat
+import androidx.core.content.FileProvider
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.betareadingapp.R
@@ -27,13 +33,14 @@ import com.example.betareadingapp.feature_text.presentation.BottomBar
 import com.example.betareadingapp.presentation.components.TopBarWithImage
 import com.example.betareadingapp.presentation.mytexts.components.TextItem
 import com.example.betareadingapp.presentation.utill.Screen
+import kotlinx.coroutines.launch
+import java.io.File
 
 @Composable
 fun RecentTextsScreen(
     navController: NavController,
     viewModel: RecentTextsViewModel = hiltViewModel()
 ) {
-
     val recentTexts = viewModel.recentTextsState.collectAsState()
     Scaffold(
         topBar = {
@@ -63,16 +70,11 @@ fun RecentTextsScreen(
                     unfocusedBorderColor = Color.White,
                     backgroundColor = Color.White
                 ),
-                keyboardActions = KeyboardActions(onDone = { viewModel.searchfilterTexts()}),
                 trailingIcon = {
-                    IconButton(
-                        onClick = { viewModel.searchfilterTexts() }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Filled.Search,
-                            contentDescription = "Search Icon"
-                        )
-                    }
+                    Icon(
+                        imageVector = Icons.Filled.Search,
+                        contentDescription = "Search Icon"
+                    )
                 }
             )
             Spacer(modifier = Modifier.height(25.dp))
@@ -95,10 +97,7 @@ fun RecentTextsScreen(
             ) {
                 items(recentTexts.value.data ?: emptyList()) { text ->
                     TextItem(text, {
-                        navController.navigate(
-                            Screen.CommentsScreen.route +
-                                    "?textId=${text.textId}"
-                        )
+                        viewModel.downloadPdf(text.file)   // TODO()
                     }, {
                         navController.navigate(
                             Screen.CommentsScreen.route +

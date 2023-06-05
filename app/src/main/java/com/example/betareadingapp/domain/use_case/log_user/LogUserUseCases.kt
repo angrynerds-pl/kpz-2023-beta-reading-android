@@ -10,5 +10,6 @@ class LogUserUseCases
     val uploadNotePdf: UploadNotePdf,
     val addComment : AddComment,
     val getRecentTexts: GetRecentTexts,
-    val filterTexts: FilterTexts
+    val filterTexts: FilterTexts,
+    val downLoadPdf: DownLoadPdf
 )
