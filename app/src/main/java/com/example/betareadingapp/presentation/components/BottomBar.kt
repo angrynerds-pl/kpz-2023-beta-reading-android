@@ -25,7 +25,7 @@ fun BottomBar(navController: NavController) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly,
-            ) {
+        ) {
             IconButton(onClick = { navController.navigate(Screen.RecentTextsScreen.route) }) {
                 Icon(Icons.Filled.Home, contentDescription = "")
             }
@@ -35,7 +35,7 @@ fun BottomBar(navController: NavController) {
             IconButton(onClick = { navController.navigate(Screen.MyTextsScreen.route) }) {
                 Icon(Icons.Default.Book, contentDescription = "")
             }
-            IconButton(onClick = { }) {
+            IconButton(onClick = { navController.navigate(Screen.ProfileScreen.route) }) {
                 Icon(Icons.Filled.Person, contentDescription = "")
             }
         }

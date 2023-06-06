@@ -11,5 +11,7 @@ class LogUserUseCases
     val addComment : AddComment,
     val getRecentTexts: GetRecentTexts,
     val filterTexts: FilterTexts,
-    val downLoadPdf: DownLoadPdf
+    val downLoadPdf: DownLoadPdf,
+    val getUserData: GetUserData,
+    val logOut: logOut
 )

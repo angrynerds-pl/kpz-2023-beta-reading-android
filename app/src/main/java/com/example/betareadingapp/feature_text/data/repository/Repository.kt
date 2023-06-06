@@ -48,10 +48,11 @@ class Repository @Inject constructor(
         return result.user ?: throw EmptyUserException()
     }
 
-//    fun logOut() {
-//        firebaseAuth.signOut()
-//
-//    }
+    fun logOut() {
+        firebaseAuth.signOut()
+//        fireStoreDatabase.clearPersistence().await()
+
+    }
 
 
 //    fun getLoggedUser(): Flow<Resource<FirebaseUser>> = flow {
@@ -65,6 +66,8 @@ class Repository @Inject constructor(
 //            emit(Resource.Error(message = "Not Logged"))
 //        }
 //    }
+
+
 
 
     suspend fun downloadPdf(storageUrl: String): Uri {
