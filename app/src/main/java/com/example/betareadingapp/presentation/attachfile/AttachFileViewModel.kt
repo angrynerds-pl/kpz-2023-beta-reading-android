@@ -64,6 +64,7 @@ constructor(
                 is Resource.Loading -> {
                     _pdfState.value = PdfState(isLoading = true)
                 }
+
                 is Resource.Success -> {
                     _pdfState.value = PdfState()
                     _uri.value = null
@@ -71,6 +72,7 @@ constructor(
                     _titleField.value = ""
                     _content.value = ""
                 }
+
                 is Resource.Error -> {
                     _pdfState.value = PdfState(error = it.message ?: "")
                 }

@@ -67,8 +67,8 @@ fun AttachFileScreen(
             ) {
                 Text(
                     stringResource(R.string.title),
-                    color = Color.White,
-                    modifier = Modifier.padding(bottom = 6.dp, start = 6.dp)
+                    color = MaterialTheme.colors.onPrimary,
+                    modifier = Modifier.padding(bottom = 6.dp, start = 6.dp),
                 )
                 OutlinedTextField(
                     value = viewModel.titleField.value,
@@ -79,16 +79,18 @@ fun AttachFileScreen(
                         .clip(RoundedCornerShape(30.dp)),
                     placeholder = { Text(stringResource(R.string.title)) },
                     colors = TextFieldDefaults.outlinedTextFieldColors(
-                        focusedBorderColor = Color.White,
-                        unfocusedBorderColor = Color.White,
-                        backgroundColor = Color.White
+                        focusedBorderColor = MaterialTheme.colors.surface,
+                        unfocusedBorderColor = MaterialTheme.colors.surface,
+                        backgroundColor = MaterialTheme.colors.surface,
+                        textColor = MaterialTheme.colors.onSurface,
+                        placeholderColor = MaterialTheme.colors.onSurface
                     )
                 )
             }
             Spacer(modifier = Modifier.height(35.dp))
             Text(
                 stringResource(R.string.add_text),
-                color = Color.White,
+                color = MaterialTheme.colors.onPrimary,
                 modifier = Modifier.padding(bottom = 5.dp)
             )
             OutlinedTextField(
@@ -100,14 +102,16 @@ fun AttachFileScreen(
                     .clip(RoundedCornerShape(10.dp)),
                 placeholder = { Text(stringResource(R.string.add_text)) },
                 colors = TextFieldDefaults.outlinedTextFieldColors(
-                    focusedBorderColor = Color.White,
-                    unfocusedBorderColor = Color.White,
-                    backgroundColor = Color.White
+                    focusedBorderColor = MaterialTheme.colors.surface,
+                    unfocusedBorderColor = MaterialTheme.colors.surface,
+                    backgroundColor = MaterialTheme.colors.surface,
+                    textColor = MaterialTheme.colors.onSurface,
+                    placeholderColor = MaterialTheme.colors.onSurface
                 )
             )
             Text(
                 stringResource(R.string.and),
-                color = Color.White,
+                color = MaterialTheme.colors.onPrimary,
                 modifier = Modifier.padding(5.dp)
             )
             Spacer(modifier = Modifier.height(15.dp))
@@ -120,18 +124,21 @@ fun AttachFileScreen(
                 Text(
                     stringResource(R.string.attach_file),
                     modifier = Modifier.align(Alignment.CenterVertically),
-                    color = Color.White
+                    color = MaterialTheme.colors.onPrimary
                 )
                 Icon(
                     imageVector = Icons.Sharp.AttachFile, contentDescription = null,
                     modifier = Modifier
                         .align(Alignment.CenterVertically)
                         .padding(start = 5.dp),
-                    tint = Color.White
+                    tint = MaterialTheme.colors.onPrimary
                 )
 
             }
-            Text(text = viewModel.filename.value)
+            Text(
+                text = viewModel.filename.value,
+                color = MaterialTheme.colors.onPrimary
+            )
             Button(
                 onClick = {
                     viewModel.uploadNotePdf()
@@ -145,13 +152,14 @@ fun AttachFileScreen(
                 content = {
                     Text(
                         text = stringResource(R.string.submit),
-                        color = Color.White
+                        color = MaterialTheme.colors.onPrimary
                     )
                 },
             )
             Text(
                 text = pdfState.value.error,
                 textAlign = TextAlign.Center,
+                color = MaterialTheme.colors.onPrimary,
                 modifier = Modifier
                     .fillMaxWidth()
             )
@@ -163,7 +171,7 @@ fun AttachFileScreen(
                         .align(Alignment.CenterHorizontally)
                 ) {
                     CircularProgressIndicator(
-                        color = Color.White
+                        color = MaterialTheme.colors.onPrimary
                     )
                 }
             }

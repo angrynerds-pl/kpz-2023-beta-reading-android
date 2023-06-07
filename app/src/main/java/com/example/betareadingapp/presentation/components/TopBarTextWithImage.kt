@@ -2,6 +2,7 @@ package com.example.betareadingapp.presentation.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
@@ -32,7 +33,7 @@ fun TopBarWithImage(
         ) {
             Text(
                 title,
-                color = Color.White,
+                color = MaterialTheme.colors.onPrimary,
                 fontSize = 22.sp,
                 modifier = Modifier.align(Alignment.CenterVertically)
             )

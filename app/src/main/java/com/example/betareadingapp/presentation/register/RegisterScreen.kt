@@ -9,6 +9,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,6 +21,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -37,6 +40,8 @@ fun RegisterScreen(
     viewModel: RegisterViewModel = hiltViewModel()
 ) {
     val userState = viewModel.authState.collectAsState()
+    var passwordVisible by remember { mutableStateOf(false) }
+    var passwordRepeatVisible by remember { mutableStateOf(false) }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -104,13 +109,17 @@ fun RegisterScreen(
                     textvalue = stringResource(R.string.password),
                     value = viewModel.password.value,
                     onValueChange = { viewModel.onPasswordChanged(it) },
-                    placeholder = stringResource(R.string.password)
+                    placeholder = stringResource(R.string.password),
+                    passwordVisibleReaction = { passwordVisible = !passwordVisible },
+                    passwordVisible = passwordVisible
                 )
                 TextFieldWithPassword(
                     textvalue = stringResource(R.string.repeat_password),
                     value = viewModel.repeatPassword.value,
                     onValueChange = { viewModel.onRepeatPasswordChanged(it) },
-                    placeholder = stringResource(R.string.repeat_password)
+                    placeholder = stringResource(R.string.repeat_password),
+                    passwordVisibleReaction = { passwordRepeatVisible = !passwordRepeatVisible },
+                    passwordVisible = passwordRepeatVisible
                 )
             }
 
@@ -160,8 +169,10 @@ fun CustomPasswordField(
     value: String,
     onValueChange: (String) -> Unit,
     placeholder: String,
+    passwordVisibleReaction: () -> Unit,
+    passwordVisible: Boolean
 
-    ) {
+) {
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
@@ -177,10 +188,18 @@ fun CustomPasswordField(
             textColor = MaterialTheme.colors.onSurface,
             placeholderColor = MaterialTheme.colors.onSurface
         ),
-        visualTransformation = PasswordVisualTransformation(),
+        visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Password
-        )
+        ),
+        trailingIcon = {
+            IconButton(onClick = { passwordVisibleReaction() }) {
+                Icon(
+                    imageVector = if (passwordVisible) Icons.Filled.VisibilityOff else Icons.Filled.Visibility,
+                    contentDescription = "Visibility"
+                )
+            }
+        }
     )
 }
 
@@ -234,7 +253,9 @@ fun TextFieldWithPassword(
     textvalue: String,
     value: String,
     onValueChange: (String) -> Unit,
-    placeholder: String
+    placeholder: String,
+    passwordVisibleReaction: () -> Unit,
+    passwordVisible: Boolean
 ) {
 
     Text(
@@ -244,7 +265,7 @@ fun TextFieldWithPassword(
             .padding(bottom = 5.dp),
         color = Color.White
     )
-    CustomPasswordField(value, onValueChange, placeholder)
+    CustomPasswordField(value, onValueChange, placeholder, passwordVisibleReaction, passwordVisible)
     Spacer(modifier = Modifier.height(8.dp))
 
 }

@@ -69,21 +69,25 @@ fun ProfileScreen(
                     modifier = Modifier.weight(2f),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text("LogOut")
+                    Text(
+                        "LogOut",
+                        color = MaterialTheme.colors.onPrimary
+                    )
                     IconButton(onClick = {
                         viewModel.logOut()
                     }
                     ) {
                         Icon(
                             Icons.Default.Logout,
-                            contentDescription = null
+                            contentDescription = null,
+                            tint = MaterialTheme.colors.onPrimary
                         )
                     }
 
                 }
                 if (profileState.value.isLoading) {
                     CircularProgressIndicator(
-                        color = Color.White,
+                        color = MaterialTheme.colors.onPrimary,
                         modifier = Modifier.size(40.dp)
                     )
 
@@ -99,13 +103,18 @@ fun ProfileScreen(
                 Text(
                     (profileState.value.user?.name ?: "") + " " + (profileState.value.user?.surname ?: ""),
                     fontSize = 22.sp,
+                    color = MaterialTheme.colors.onPrimary
                 )
                 Text(
                     profileState.value.user?.email ?: "",
-                    fontSize = 22.sp, // szkoda ze dopiero teraz odkrylem MaterialTheme
+                    fontSize = 22.sp,
+                    color = MaterialTheme.colors.onPrimary
                 )
                 if (profileState.value.error.isNotEmpty()) {
-                    Text(profileState.value.error)
+                    Text(
+                        profileState.value.error,
+                        color = MaterialTheme.colors.onPrimary
+                    )
                 }
             }
         }
