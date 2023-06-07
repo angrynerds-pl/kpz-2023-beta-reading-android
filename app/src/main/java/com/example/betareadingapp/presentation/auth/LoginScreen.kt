@@ -73,7 +73,7 @@ fun LoginScreen(
                 Text(
                     text = stringResource(R.string.login),
                     fontSize = 18.sp,
-                    color = MaterialTheme.colors.onSurface,
+                    color = MaterialTheme.colors.onPrimary,
                     modifier = Modifier
                         .padding(bottom = 8.dp)
                 )
@@ -103,7 +103,7 @@ fun LoginScreen(
                 Text(
                     text = stringResource(R.string.password),
                     fontSize = 18.sp,
-                    color = MaterialTheme.colors.onSurface,
+                    color = MaterialTheme.colors.onPrimary,
                     modifier = Modifier
                         .padding(bottom = 8.dp)
                 )
