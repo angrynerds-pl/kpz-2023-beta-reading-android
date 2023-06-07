@@ -105,7 +105,7 @@ fun RegisterScreen(
                     onValueChange = { viewModel.onEmailChanged(it) },
                     placeholder = stringResource(R.string.email)
                 )
-                TextFieldWithPassword(
+                PasswordtFieldWithText(
                     textvalue = stringResource(R.string.password),
                     value = viewModel.password.value,
                     onValueChange = { viewModel.onPasswordChanged(it) },
@@ -113,7 +113,7 @@ fun RegisterScreen(
                     passwordVisibleReaction = { passwordVisible = !passwordVisible },
                     passwordVisible = passwordVisible
                 )
-                TextFieldWithPassword(
+                PasswordtFieldWithText(
                     textvalue = stringResource(R.string.repeat_password),
                     value = viewModel.repeatPassword.value,
                     onValueChange = { viewModel.onRepeatPasswordChanged(it) },
@@ -249,7 +249,7 @@ fun TextFieldWithText(
 }
 
 @Composable
-fun TextFieldWithPassword(
+fun PasswordtFieldWithText(
     textvalue: String,
     value: String,
     onValueChange: (String) -> Unit,
