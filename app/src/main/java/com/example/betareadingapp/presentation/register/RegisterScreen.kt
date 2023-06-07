@@ -50,7 +50,7 @@ fun RegisterScreen(
                 horizontalArrangement = Arrangement.Start
             ) {
                 Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null,
-                    tint = Color.White,
+                    tint = MaterialTheme.colors.onPrimary,
                     modifier = Modifier
                         .size(55.dp)
                         .clickable { navController.navigate(Screen.LoginScreen.route) }
@@ -61,7 +61,7 @@ fun RegisterScreen(
             Text(
                 text = stringResource(R.string.register_account),
                 fontSize = 25.sp,
-                color = Color.White,
+                color = MaterialTheme.colors.onPrimary,
                 modifier = Modifier
                     .padding(bottom = 10.dp)
             )
@@ -73,7 +73,7 @@ fun RegisterScreen(
                         .align(Alignment.CenterHorizontally)
                 ) {
                     CircularProgressIndicator(
-                        color = Color.White
+                        color = MaterialTheme.colors.onPrimary
                     )
                 }
             }
@@ -82,122 +82,35 @@ fun RegisterScreen(
                     .padding(top = 20.dp),
                 horizontalAlignment = Alignment.Start
             ) {
-                Text(
-                    text = stringResource(R.string.name),
-                    fontSize = 12.sp,
-                    modifier = Modifier
-                        .padding(bottom = 5.dp),
-                    color = Color.White
-                )
-                OutlinedTextField(
+                TextFieldWithText(
+                    textvalue = stringResource(R.string.name),
                     value = viewModel.name.value,
                     onValueChange = { viewModel.onNameChanged(it) },
-                    singleLine = true,
-                    modifier = Modifier
-                        .fillMaxWidth(0.7f)
-                        .clip(RoundedCornerShape(50.dp)),
-                    placeholder = { Text(stringResource(R.string.name)) },
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        focusedBorderColor = Color.White,
-                        unfocusedBorderColor = Color.White,
-                        backgroundColor = Color.White
-                    )
+                    placeholder = stringResource(R.string.name)
                 )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = stringResource(R.string.surname),
-                    fontSize = 12.sp,
-                    modifier = Modifier
-                        .padding(bottom = 5.dp),
-                    color = Color.White
-                )
-                OutlinedTextField(
+                TextFieldWithText(
+                    textvalue = stringResource(R.string.surname),
                     value = viewModel.surname.value,
                     onValueChange = { viewModel.onSurnameChanged(it) },
-                    singleLine = true,
-                    modifier = Modifier
-                        .fillMaxWidth(0.7f)
-                        .clip(RoundedCornerShape(50.dp)),
-                    placeholder = { Text(stringResource(R.string.surname)) },
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        focusedBorderColor = Color.White,
-                        unfocusedBorderColor = Color.White,
-                        backgroundColor = Color.White
-                    )
+                    placeholder = stringResource(R.string.surname)
                 )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = stringResource(R.string.email),
-                    fontSize = 12.sp,
-                    modifier = Modifier
-                        .padding(bottom = 5.dp),
-                    color = Color.White
-                )
-                OutlinedTextField(
+                TextFieldWithText(
+                    textvalue = stringResource(R.string.email),
                     value = viewModel.email.value,
                     onValueChange = { viewModel.onEmailChanged(it) },
-                    singleLine = true,
-                    modifier = Modifier
-                        .fillMaxWidth(0.7f)
-                        .clip(RoundedCornerShape(50.dp)),
-                    placeholder = { Text(stringResource(R.string.email)) },
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        focusedBorderColor = Color.White,
-                        unfocusedBorderColor = Color.White,
-                        backgroundColor = Color.White
-                    )
+                    placeholder = stringResource(R.string.email)
                 )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = stringResource(R.string.password),
-                    fontSize = 12.sp,
-                    modifier = Modifier
-                        .padding(bottom = 5.dp),
-                    color = Color.White
-                )
-                OutlinedTextField(
+                TextFieldWithPassword(
+                    textvalue = stringResource(R.string.password),
                     value = viewModel.password.value,
                     onValueChange = { viewModel.onPasswordChanged(it) },
-                    singleLine = true,
-                    modifier = Modifier
-                        .fillMaxWidth(0.7f)
-                        .clip(RoundedCornerShape(50.dp)),
-                    placeholder = { Text(stringResource(R.string.password)) },
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        focusedBorderColor = Color.White,
-                        unfocusedBorderColor = Color.White,
-                        backgroundColor = Color.White
-                    ),
-                    visualTransformation = PasswordVisualTransformation(),
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Password
-                    )
+                    placeholder = stringResource(R.string.password)
                 )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = stringResource(R.string.repeat_password),
-                    fontSize = 12.sp,
-                    modifier = Modifier
-                        .padding(bottom = 5.dp),
-                    color = Color.White
-                )
-                OutlinedTextField(
+                TextFieldWithPassword(
+                    textvalue = stringResource(R.string.repeat_password),
                     value = viewModel.repeatPassword.value,
                     onValueChange = { viewModel.onRepeatPasswordChanged(it) },
-                    singleLine = true,
-                    modifier = Modifier
-                        .fillMaxWidth(0.7f)
-                        .clip(RoundedCornerShape(50.dp)),
-                    placeholder = { Text(stringResource(R.string.repeat_password)) },
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        focusedBorderColor = Color.White,
-                        unfocusedBorderColor = Color.White,
-                        backgroundColor = Color.White
-                    ),
-                    visualTransformation = PasswordVisualTransformation(),
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Password
-                    )
+                    placeholder = stringResource(R.string.repeat_password)
                 )
             }
 
@@ -206,7 +119,7 @@ fun RegisterScreen(
                     viewModel.register()
                 },
                 modifier = Modifier
-                    .padding(top = 24.dp)
+                    .padding(top = 16.dp)
                     .fillMaxWidth(0.4f)
                     .height(48.dp)
                     .clip(RoundedCornerShape(50.dp)),
@@ -215,7 +128,7 @@ fun RegisterScreen(
                 content = {
                     Text(
                         text = stringResource(R.string.register),
-                        color = Color.White
+                        color = MaterialTheme.colors.onPrimary
                     )
                 },
             )
@@ -226,7 +139,7 @@ fun RegisterScreen(
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .padding(top = 8.dp),
-                    color = Color.White
+                    color = MaterialTheme.colors.onPrimary
                 )
 
         }
@@ -239,6 +152,100 @@ fun RegisterScreen(
             }
         }
     }
+
+}
+
+@Composable
+fun CustomPasswordField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    placeholder: String,
+
+    ) {
+    OutlinedTextField(
+        value = value,
+        onValueChange = onValueChange,
+        singleLine = true,
+        modifier = Modifier
+            .fillMaxWidth(0.7f)
+            .clip(RoundedCornerShape(50.dp)),
+        placeholder = { Text(placeholder) },
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            focusedBorderColor = MaterialTheme.colors.surface,
+            unfocusedBorderColor = MaterialTheme.colors.surface,
+            backgroundColor = MaterialTheme.colors.surface,
+            textColor = MaterialTheme.colors.onSurface,
+            placeholderColor = MaterialTheme.colors.onSurface
+        ),
+        visualTransformation = PasswordVisualTransformation(),
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Password
+        )
+    )
+}
+
+@Composable
+fun CustomTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    placeholder: String,
+
+    ) {
+    OutlinedTextField(
+        value = value,
+        onValueChange = onValueChange,
+        singleLine = true,
+        modifier = Modifier
+            .fillMaxWidth(0.7f)
+            .clip(RoundedCornerShape(50.dp)),
+        placeholder = { Text(placeholder) },
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            focusedBorderColor = MaterialTheme.colors.surface,
+            unfocusedBorderColor = MaterialTheme.colors.surface,
+            backgroundColor = MaterialTheme.colors.surface,
+            textColor = MaterialTheme.colors.onSurface,
+            placeholderColor = MaterialTheme.colors.onSurface
+        ),
+    )
+}
+
+@Composable
+fun TextFieldWithText(
+    textvalue: String,
+    value: String,
+    onValueChange: (String) -> Unit,
+    placeholder: String
+) {
+
+    Text(
+        text = textvalue,
+        fontSize = 12.sp,
+        modifier = Modifier
+            .padding(bottom = 5.dp),
+        color = Color.White
+    )
+    CustomTextField(value, onValueChange, placeholder)
+    Spacer(modifier = Modifier.height(8.dp))
+
+}
+
+@Composable
+fun TextFieldWithPassword(
+    textvalue: String,
+    value: String,
+    onValueChange: (String) -> Unit,
+    placeholder: String
+) {
+
+    Text(
+        text = textvalue,
+        fontSize = 12.sp,
+        modifier = Modifier
+            .padding(bottom = 5.dp),
+        color = Color.White
+    )
+    CustomPasswordField(value, onValueChange, placeholder)
+    Spacer(modifier = Modifier.height(8.dp))
 
 }
 

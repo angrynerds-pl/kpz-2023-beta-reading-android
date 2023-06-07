@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.BottomAppBar
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Book
 import androidx.compose.material.icons.filled.Chat
@@ -20,7 +21,8 @@ import com.example.betareadingapp.presentation.utill.Screen
 @Composable
 fun BottomBar(navController: NavController) {
     BottomAppBar(
-        backgroundColor = Color.White
+        backgroundColor = MaterialTheme.colors.background,
+        contentColor = MaterialTheme.colors.onBackground
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
