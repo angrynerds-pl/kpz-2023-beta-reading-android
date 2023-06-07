@@ -57,7 +57,7 @@ fun LoginScreen(
                         .align(Alignment.CenterHorizontally)
                 ) {
                     CircularProgressIndicator(
-                        color = Color.White
+                        color = MaterialTheme.colors.onPrimary
                     )
                 }
             }
@@ -68,7 +68,7 @@ fun LoginScreen(
                 Text(
                     text = stringResource(R.string.login),
                     fontSize = 18.sp,
-                    color = Color.White,
+                    color = MaterialTheme.colors.onSurface,
                     modifier = Modifier
                         .padding(bottom = 8.dp)
                 )
@@ -81,9 +81,11 @@ fun LoginScreen(
                         .clip(RoundedCornerShape(50.dp)),
                     placeholder = { Text(stringResource(R.string.email)) },
                     colors = TextFieldDefaults.outlinedTextFieldColors(
-                        focusedBorderColor = Color.White,
-                        unfocusedBorderColor = Color.White,
-                        backgroundColor = Color.White
+                        focusedBorderColor = MaterialTheme.colors.surface,
+                        unfocusedBorderColor = MaterialTheme.colors.surface,
+                        backgroundColor = MaterialTheme.colors.surface,
+                        textColor = MaterialTheme.colors.onSurface,
+                        placeholderColor = MaterialTheme.colors.onSurface
                     )
                 )
 
@@ -96,7 +98,7 @@ fun LoginScreen(
                 Text(
                     text = stringResource(R.string.password),
                     fontSize = 18.sp,
-                    color = Color.White,
+                    color = MaterialTheme.colors.onSurface,
                     modifier = Modifier
                         .padding(bottom = 8.dp)
                 )
@@ -109,9 +111,11 @@ fun LoginScreen(
                         .clip(RoundedCornerShape(50.dp)),
                     placeholder = { Text(stringResource(R.string.password)) },
                     colors = TextFieldDefaults.outlinedTextFieldColors(
-                        focusedBorderColor = Color.White,
-                        unfocusedBorderColor = Color.White,
-                        backgroundColor = Color.White
+                        focusedBorderColor = MaterialTheme.colors.surface,
+                        unfocusedBorderColor = MaterialTheme.colors.surface,
+                        backgroundColor = MaterialTheme.colors.surface,
+                        textColor = MaterialTheme.colors.onSurface,
+                        placeholderColor = MaterialTheme.colors.onSurface
                     ),
                     visualTransformation = PasswordVisualTransformation(),
                     keyboardOptions = KeyboardOptions(
@@ -120,18 +124,6 @@ fun LoginScreen(
                 )
             }
 
-//                Text(
-//                    buildAnnotatedString {
-//                        append("don't have an account? ")
-//                        pushStyle(SpanStyle(color = Color(0xFFFE902A)))
-//                        append("sign up")
-//                        pop()
-//                    },
-//                    modifier = Modifier
-//                        .padding(top = 24.dp)
-//                        .clickable { navController.navigate(Screen.RegisterScreen.route) },
-//                    textAlign = TextAlign.Center
-//                )
             Row(modifier = Modifier.padding(top = 24.dp)) {
                 Text("don't have an account? ")
                 Text("sign up",
@@ -166,7 +158,7 @@ fun LoginScreen(
                 content = {
                     Text(
                         text = stringResource(R.string.login),
-                        color = Color.White
+                        color = MaterialTheme.colors.onPrimary
                     )
                 },
             )
@@ -176,7 +168,7 @@ fun LoginScreen(
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .padding(top = 8.dp),
-                    color = Color.White
+                    color = MaterialTheme.colors.onPrimary
                 )
         }
 

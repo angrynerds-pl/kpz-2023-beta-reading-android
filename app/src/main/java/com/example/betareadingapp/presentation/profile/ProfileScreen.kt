@@ -104,7 +104,7 @@ fun ProfileScreen(
                     profileState.value.user?.email ?: "",
                     fontSize = 22.sp, // szkoda ze dopiero teraz odkrylem MaterialTheme
                 )
-                if(profileState.value.error.isNotEmpty()){
+                if (profileState.value.error.isNotEmpty()) {
                     Text(profileState.value.error)
                 }
             }

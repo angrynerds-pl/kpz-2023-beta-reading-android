@@ -47,9 +47,11 @@ fun CommentsScreen(
                 .padding(bottom = paddingValues.calculateBottomPadding()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            LazyColumn(modifier = Modifier
-                .weight(1f)
-                .fillMaxSize()) {
+            LazyColumn(
+                modifier = Modifier
+                    .weight(1f)
+                    .fillMaxSize()
+            ) {
                 items(count = lazyPagingItems.itemCount) { index ->
                     val comment = lazyPagingItems[index]
                     if (comment != null) {
@@ -69,17 +71,20 @@ fun CommentsScreen(
                     .padding(top = 10.dp, bottom = 10.dp),
                 placeholder = { Text(stringResource(R.string.add_coment)) },
                 colors = TextFieldDefaults.outlinedTextFieldColors(
-                    focusedBorderColor = Color.White,
-                    unfocusedBorderColor = Color.White,
-                    backgroundColor = Color.White
+                    focusedBorderColor = MaterialTheme.colors.surface,
+                    unfocusedBorderColor = MaterialTheme.colors.surface,
+                    backgroundColor = MaterialTheme.colors.surface,
+                    textColor = MaterialTheme.colors.onSurface,
+                    placeholderColor = MaterialTheme.colors.onSurface
                 ),
                 trailingIcon = {
                     IconButton(
-                        onClick = {viewModel.addComment()}
+                        onClick = { viewModel.addComment() }
                     ) {
                         Icon(
                             imageVector = Icons.Filled.Send,
-                            contentDescription = "Send"
+                            contentDescription = "Send",
+                            tint = MaterialTheme.colors.onSurface
                         )
                     }
                 }

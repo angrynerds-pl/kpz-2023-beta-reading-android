@@ -36,8 +36,14 @@ fun TextItem(
                 modifier = Modifier.fillMaxSize()
             ) {
                 Column(modifier = Modifier.padding(start = 2.dp, end = 52.dp)) {
-                    Text(text = text.title, style = MaterialTheme.typography.h6)
-                    Text(text = text.author, fontSize = 14.sp)
+                    Text(
+                        text = text.title, style = MaterialTheme.typography.h6,
+                        color = MaterialTheme.colors.onSurface
+                    )
+                    Text(
+                        text = text.author, fontSize = 14.sp,
+                        color = MaterialTheme.colors.onSurface
+                    )
                     Spacer(modifier = Modifier.height(6.dp))
                     Text(
                         text = text.content.take(300), fontSize = 12.sp,
@@ -54,7 +60,7 @@ fun TextItem(
                         Icon(
                             imageVector = Icons.Default.PictureAsPdf,
                             contentDescription = "Open pdf",
-                            tint = Color.Black
+                            tint = MaterialTheme.colors.onSurface
                         )
                     }
                     IconButton(
@@ -63,7 +69,7 @@ fun TextItem(
                         Icon(
                             imageVector = Icons.Default.Edit,
                             contentDescription = "Navigate to comments",
-                            tint = Color.Black
+                            tint = MaterialTheme.colors.onSurface
                         )
                     }
                 }

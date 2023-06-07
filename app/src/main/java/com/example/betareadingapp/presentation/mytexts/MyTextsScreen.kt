@@ -99,14 +99,17 @@ fun MyTextsScreen(
                     .clip(RoundedCornerShape(50.dp)),
                 placeholder = { Text(stringResource(R.string.search)) },
                 colors = TextFieldDefaults.outlinedTextFieldColors(
-                    focusedBorderColor = Color.White,
-                    unfocusedBorderColor = Color.White,
-                    backgroundColor = Color.White
+                    focusedBorderColor = MaterialTheme.colors.surface,
+                    unfocusedBorderColor = MaterialTheme.colors.surface,
+                    backgroundColor = MaterialTheme.colors.surface,
+                    textColor = MaterialTheme.colors.onSurface,
+                    placeholderColor = MaterialTheme.colors.onSurface
                 ),
                 trailingIcon = {
                     Icon(
                         imageVector = Icons.Filled.Search,
-                        contentDescription = "Search Icon"
+                        contentDescription = "Search Icon",
+                        tint = MaterialTheme.colors.onSurface
                     )
                 }
             )
