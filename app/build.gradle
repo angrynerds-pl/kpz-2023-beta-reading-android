@@ -97,6 +97,8 @@ dependencies {
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
+    
+  //  SelectNoteShowPdf
     implementation "androidx.compose.material:material-icons-extended:$compose_ui_version"
 
 
@@ -110,6 +112,3 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore-ktx:24.2.2'
     implementation 'com.google.firebase:firebase-storage-ktx:20.1.0'
 
-
-
-}
