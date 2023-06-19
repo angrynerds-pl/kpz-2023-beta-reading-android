@@ -1,40 +1,35 @@
 package com.example.betareadingapp.presentation.recenttexts
 
-import android.content.Context
+import android.app.Activity
 import android.content.Intent
-import android.net.Uri
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.SemanticsProperties.ImeAction
 import androidx.compose.ui.unit.dp
-import androidx.core.app.ActivityCompat
-import androidx.core.content.FileProvider
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.navigation.NavController
 import com.example.betareadingapp.R
 import com.example.betareadingapp.feature_text.presentation.BottomBar
 import com.example.betareadingapp.presentation.components.TopBarWithImage
 import com.example.betareadingapp.presentation.mytexts.components.TextItem
 import com.example.betareadingapp.presentation.utill.Screen
-import kotlinx.coroutines.launch
-import java.io.File
 
 @Composable
 fun RecentTextsScreen(
@@ -42,6 +37,21 @@ fun RecentTextsScreen(
     viewModel: RecentTextsViewModel = hiltViewModel()
 ) {
     val recentTexts = viewModel.recentTextsState.collectAsState()
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    val downloadedPdfUri = remember {
+        viewModel.pdfUriState.flowWithLifecycle(lifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+    }.collectAsState(null).value
+
+    if (downloadedPdfUri != null) {
+        (LocalContext.current as Activity).startActivity(
+            Intent(Intent.ACTION_VIEW)
+                .also {
+                    it.setDataAndType(downloadedPdfUri, "application/pdf")
+                    it.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                })
+    }
+
     Scaffold(
         topBar = {
             TopBarWithImage(stringResource(R.string.recent_texts))
@@ -103,7 +113,7 @@ fun RecentTextsScreen(
             ) {
                 items(recentTexts.value.data ?: emptyList()) { text ->
                     TextItem(text, {
-//                        viewModel.downloadPdf(text.file)   // TODO()
+                        viewModel.downloadPdf(text.file)   // TODO()
                     }, {
                         navController.navigate(
                             Screen.CommentsScreen.route +
